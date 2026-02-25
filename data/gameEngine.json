@@ -1,0 +1,1201 @@
+{
+    "meta": {
+      "title": "Survive or Not: Amali's Wake",
+      "subtitle": "A 3-Day Disaster Risk Simulation in Sri Lanka",
+      "version": "1.0"
+    },
+  
+    "system": {
+      "variables": {
+        "S": { "name": "Safety", "min": -6, "max": 6 },
+        "R": { "name": "Resources", "min": -5, "max": 5 },
+        "M": { "name": "Mobility", "min": -6, "max": 6 },
+        "SC": { "name": "Social Capital", "min": -5, "max": 5 },
+        "HR": { "name": "High Risk Count", "min": 0, "max": 10 }
+      },
+      "skills": {
+        "SA": { "name": "Surge Awareness", "min": 0, "max": 1 },
+        "FM": { "name": "Flood Management", "min": 0, "max": 1 },
+        "LA": { "name": "Landslide Awareness", "min": 0, "max": 1 }
+      },
+      "initial_values": {
+        "S": 0,
+        "R": 0,
+        "M": 0,
+        "SC": 0,
+        "HR": 0,
+        "SA": 0,
+        "FM": 0,
+        "LA": 0
+      }
+    },
+  
+    "personas": {
+        "Standard": { "delta": {} },
+
+        "Caregiver": {
+            "delta": { "R": -2, "M": -1, "SC": 1 }
+        },
+
+        "Elderly": {
+            "delta": { "S": -1, "M": -2, "SC": 1 }
+        }
+        },
+  
+    "locations": {
+      "Coastal": {},
+      "River": {},
+      "Hill": {}
+    },
+  
+    "persona_info": {
+    "Standard": "You are an able-bodied adult managing your household independently. You have the luxury of speed and financial autonomy. Your challenge is not capability, but judgment: can you resist the trap of overconfidence?",
+    "Caregiver": "With two children and an elderly parent relying on you, your starting resources are stretched thin, though your social ties are stronger. Physical fatigue accumulates faster for you.",
+    "Elderly": "You live alone with a body that no longer matches your resolve. Your wisdom is deep, but your window for physical response is narrow. For you, survival isn't about muscle; it is about anticipation and social ties."
+    },
+
+    "location_info": {
+    "Coastal": "You live near the coast in Galle. Storm surge is common.",
+    "River": "You live near the Kelani River. Urban flooding and contamination are common.",
+    "Hill": "You live in the Central Highlands near Kandy. Landslides are common."
+    },
+
+    "nodes": {
+  
+      "DAY0_LOCATION": {
+        "type": "narrative",
+        "text": "This is where you live.",
+        "next_by_location": {
+            "Coastal": "COASTAL_1",
+            "River": "RIVER_1",
+            "Hill": "HILL_1"
+        }
+        },
+      "COASTAL_1": {
+        "type": "narrative",
+        "text": "You live near the coast in Galle. Fishing and tourism shape your community.",
+        "next": "COASTAL_2"
+        },
+        "COASTAL_2": {
+        "type": "narrative",
+        "text": "Today, the tide seems higher than usual. The wind keeps pushing water toward the shore.",
+        "next": "DAY1_START_1"
+        },
+
+      "RIVER_1": {
+        "type": "narrative",
+        "text": "You live in the dense neighborhoods near the Kelani River. Floods happen here almost every year.",
+        "next": "RIVER_2"
+        },
+        "RIVER_2": {
+        "type": "narrative",
+        "text": "Today, the drainage canals are already overflowing after hours of rain.",
+        "next": "RIVER_3"
+        },
+        "RIVER_3": {
+        "type": "narrative",
+        "text": "The water in the streets looks brown and carries debris. Traffic jams form quickly here when roads are submerged.",
+        "next": "DAY1_START_1"
+        },
+
+      "HILL_1": {
+        "type": "narrative",
+        "text": "You live in the Central Highlands, near Kandy. The slopes are covered in tea plantations.",
+        "next": "HILL_2"
+        },
+        "HILL_2": {
+        "type": "narrative",
+        "text": "Rain has been falling without pause. The ground feels softer than usual under your feet.",
+        "next": "DAY1_START_1"
+        },
+  
+      "DAY1_START_1": {
+        "type": "narrative",
+        "text": "November 2025. The humid air over Sri Lanka has become unusually still.",
+        "next": "DAY1_START_2"
+        },
+
+        "DAY1_START_2": {
+        "type": "narrative",
+        "text": "Across Colombo and Galle, conversations have grown quiet.",
+        "next": "DAY1_START_3"
+        },
+
+        "DAY1_START_3": {
+        "type": "narrative",
+        "text": "Phones begin vibrating across the country. Emergency alerts repeat the same name: Amali.",
+        "next": "DAY1_START_4"
+        },
+
+        "DAY1_START_4": {
+        "type": "narrative",
+        "text": "A powerful cyclone is strengthening in the Bay of Bengal. Your window to prepare is shrinking.",
+        "next": "DAY1_START_5"
+        },
+
+        "DAY1_START_5": {
+        "type": "narrative",
+        "text": "Today is the Day one.",
+        "next": "DAY1_WARNING"
+        },
+
+  
+      "DAY1_WARNING": {
+        "type": "decision",
+        "text": "The sirens begin before dusk — a long, mechanical howl that does not stop. Your phone vibrates: 'DMC RED ALERT — Severe Cyclone Amali Expected Within 12 Hours.' The local market is still busy; some shopkeepers are staying open to make a final profit. You have a narrow window before the heavy rain starts.",
+        "options": [
+            {
+            "id": "A",
+            "label": "A. Rapid Response. Immediately stop what you're doing and spend your current cash on emergency essentials before prices spike or stocks run out.",
+            "delta": { "S": 1, "R": -3 },
+            "persona_overrides": {
+                "Caregiver": { "delta": { "S": 1, "R": -5 }, "comment": "Buying for a whole family during a panic is twice as expensive." },
+                "Elderly": { "delta": { "S": 1, "R": -3, "M": -1 }, "comment": "The rush at the store is physically overwhelming for you." }
+            },
+            "flag": "EARLY_ACTION",
+            "next": "ROUTER_DAY1_WARNING"
+            },
+            {
+            "id": "B",
+            "label": "B. Verification. Stay put to listen to the weather radio and call neighbors to confirm the evacuation path.",
+            "delta": { "SC": 2, "S": 0 },
+            "persona_overrides": {
+                "Caregiver": { "delta": { "SC": 1, "S": -1 }, "comment": "The time spent talking is time lost preparing the children." },
+                "Elderly": { "delta": { "SC": 3, "S": 1 }, "comment": "Your social network is your best warning system." }
+            },
+            "flag": "SOCIAL_VERIFY",
+            "next": "ROUTER_DAY1_WARNING"
+            },
+            {
+            "id": "C",
+            "label": "C. Wait. Continue your normal routine for two more hours to save on costs and see if the sky clears.",
+            "delta": { "R": 2, "S": -2 },
+            "persona_overrides": {
+                "Caregiver": { "delta": { "R": 1, "S": -3, "HR": 1 }, "comment": "A dangerous gamble. You've locked your family into a late-night crisis." },
+                "Elderly": { "delta": { "R": 2, "S": -2, "M": -1 }, "comment": "You've saved money but lost the stamina needed to prepare later." }
+            },
+            "flag": "DELAY",
+            "next": "ROUTER_DAY1_WARNING"
+            }
+        ]
+        },
+  
+      "ROUTER_DAY1_WARNING": {
+        "type": "router_multi",
+        "conditions": [
+            { "if": "S < 0", "next": "FEEDBACK_DANGER_WARNING" },
+            { "if": "R <= -3", "next": "FEEDBACK_RESOURCES_WARNING" },
+            { "if": "SC >= 2", "next": "FEEDBACK_SOCIAL_WARNING" }
+        ],
+        "next_after_feedback": "DAY1_PREP"
+        },
+
+        "FEEDBACK_DANGER_WARNING": {
+        "type": "narrative",
+        "text": "⚠️ SAFETY GAP DETECTED\n\nCurrent Safety (S): {S}\n\nBy delaying your response, your safety margin has dropped. In disaster management, 'waiting to see' often creates a cascade of risks that are harder to manage once the storm makes landfall.",
+        "next": "ROUTER_DAY1_WARNING"
+        },
+
+        "FEEDBACK_RESOURCES_WARNING": {
+        "type": "narrative",
+        "text": "📉 RESOURCE DRAIN\n\nCurrent Resources (R): {R}\n\nYour rapid response has secured supplies, but at a significant cost. You are safer, but your economic resilience is now brittle. You must manage your remaining assets carefully.",
+        "next": "ROUTER_DAY1_WARNING"
+        },
+
+        "FEEDBACK_SOCIAL_WARNING": {
+        "type": "narrative",
+        "text": "🤝 SOCIAL CAPITAL BOOST\n\nSocial Capital (SC): {SC}\n\nVerification via community channels has strengthened your social ties. While you haven't reinforced your home yet, you have secured a network of information that may be vital for evacuation.",
+        "next": "ROUTER_DAY1_WARNING"
+        },
+
+
+      "DAY1_PREP": {
+        "type": "decision",
+        "text": "The wind has shifted — it now presses against the walls in uneven pulses. Inside your home, objects feel suddenly fragile. You are exhausted, and you only have enough strength left for one major task before the storm hits at midnight.",
+        "options": [
+            {
+            "id": "A",
+            "label": "A. Organize a Go-Bag with medicine, documents, and 3 days of rations. Keep it by the door for a quick escape.",
+            "delta": { "R": 2, "M": -1 },
+            "persona_overrides": {
+                "Caregiver": { "delta": { "R": 1, "M": -2 }, "comment": "Packing for four people is a heavy physical burden." },
+                "Elderly": { "delta": { "R": 3, "SC": 1 }, "comment": "Prioritizing your medication and documents is the most efficient use of your limited energy." }
+            },
+            "flag": "HAS_KIT",
+            "next": "ROUTER_DAY1_PREP"
+            },
+            {
+            "id": "B",
+            "label": "B. Move heavy furniture away from windows and haul sandbags to the front door.",
+            "delta": { "S": 2, "M": -3 },
+            "persona_overrides": {
+                "Caregiver": { "delta": { "S": 2, "M": -4 }, "comment": "The house is a fortress, but you are now too tired to move quickly if the roof fails." },
+                "Elderly": { "delta": { "S": -1, "M": -4, "HR": 1 }, "comment": "TRAP: You strained your heart and back lifting sandbags. You are now injured and the house is barely reinforced." }
+            },
+            "next": "ROUTER_DAY1_PREP"
+            },
+            {
+            "id": "C",
+            "label": "C. Do nothing further. Eat a full meal and sleep now so you are alert when the impact happens.",
+            "delta": { "M": 3, "S": -1 },
+            "persona_overrides": {
+                "Caregiver": { "delta": { "M": 2, "S": -2 }, "comment": "You are rested, but the children are terrified by the lack of a clear plan." },
+                "Elderly": { "delta": { "M": 3, "S": -1, "R": 1 }, "comment": "Saving your stamina is a smart move for your age, even if the house is a bit leaky." }
+            },
+            "flag": "UNDERPREPARED",
+            "next": "ROUTER_DAY1_PREP"
+            }
+        ]
+        },
+  
+      "ROUTER_DAY1_PREP": {
+        "type": "router_multi",
+        "comment": "Multi-trigger evaluation: collect all matched feedback before advancing.",
+        "conditions": [
+            { "if": "S < 0", "next": "FEEDBACK_DANGER" },
+            { "if": "R < -2", "next": "FEEDBACK_RESOURCES" },
+            { "if": "M < -2", "next": "FEEDBACK_EXHAUSTION" },
+            { "if": "HR > 0", "next": "FEEDBACK_RISK" }
+        ],
+        "next_after_feedback": "DAY2_START_1"
+        },
+
+        "FEEDBACK_DANGER": {
+        "type": "narrative",
+        "text": "⚠️ CRITICAL VULNERABILITY\n\nSafety Margin: {S}\n\nYour safety margin is negative. By prioritizing secondary tasks over basic protection, you have left your household exposed. The upcoming impact will be extremely dangerous.",
+        "next": "ROUTER_DAY1_PREP"
+        },
+
+        "FEEDBACK_RESOURCES": {
+        "type": "narrative",
+        "text": "📉 RESOURCE DEPLETION\n\nResources (R): {R}\n\nResource depletion detected. You have spent too much capital or supplies too early. You may lack the means to handle secondary crises, such as acquiring clean water or emergency medical aid.",
+        "next": "ROUTER_DAY1_PREP"
+        },
+
+        "FEEDBACK_EXHAUSTION": {
+        "type": "narrative",
+        "text": "😫 PHYSICAL STRAIN\n\nMobility (M): {M}\n\nPhysical exhaustion is high. Your body is trembling from the prep work. Your ability to evacuate quickly or react to sudden structural failures in the next phase is now compromised.",
+        "next": "ROUTER_DAY1_PREP"
+        },
+
+        "FEEDBACK_RISK": {
+        "type": "narrative",
+        "text": "🚩 HIGH-RISK PROFILE\n\nHigh Risk Count: {HR}\n\nHigh-risk behaviors recorded. You are gambling with survival by ignoring established disaster protocols. In a cyclone, luck is not a sustainable strategy.",
+        "next": "ROUTER_DAY1_PREP"
+        },
+        
+      "DAY2_START_1": {
+        "type": "narrative",
+        "text": "Day 2. Just before dawn. The wind is no longer in gusts. It becomes a continuous roar.",
+        "next": "DAY2_START_2"
+        },
+
+        "DAY2_START_2": {
+        "type": "narrative",
+        "text": "Windows rattle. The building shakes.",
+        "next": "DAY2_START_3"
+        },
+
+        "DAY2_START_3": {
+        "type": "narrative",
+        "text": "The power cuts out. Mobile networks begin to fail.",
+        "next": "DAY2_START_4"
+        },
+
+        "DAY2_START_4": {
+        "type": "narrative",
+        "text": "The cyclone has made landfall.",
+        "next_by_location": {
+            "Coastal": "COASTAL_EVENT",
+            "River": "RIVER_EVENT",
+            "Hill": "HILL_EVENT"
+        }
+        }, 
+
+      "COASTAL_EVENT": {
+        "type": "decision",
+        "text": "The wind screams, driving a dark, salty tide deep into your street. Seawater is bubbling up through the drains, and the road is now a fast-moving stream of knee-deep debris. High tide is still an hour away. Your front door is the only thing keeping the ocean out, and it’s beginning to groan under the pressure.",
+        "options": [
+            {
+                "id": "A",
+                "label": "A. Abandon the ground floor and move all essentials to the upper level immediately.",
+                "delta": { "SA": 1, "M": -1 },
+              
+                "probability": [
+                  { "condition": "M >= -1", "chance": 0.85, "effect": { "S": 2 } },
+                  { "condition": "M >= -1", "chance": 0.15, "effect": { "S": -1 } },
+                  { "condition": "M < -1", "chance": 0.65, "effect": { "S": 1 } },
+                  { "condition": "M < -1", "chance": 0.35, "effect": { "S": -2 } }
+                ],
+              
+                "persona_overrides": {
+              
+                  "Caregiver": {
+                    "delta": { "M": -2 },
+                    "probability": [
+                      { "condition": "M >= -1", "chance": 0.75, "effect": { "S": 2 } },
+                      { "condition": "M >= -1", "chance": 0.25, "effect": { "S": -1 } },
+                      { "condition": "M < -1", "chance": 0.55, "effect": { "S": 1 } },
+                      { "condition": "M < -1", "chance": 0.45, "effect": { "S": -3 } }
+                    ],
+                    "comment": "Carrying dependents upstairs under surge pressure increases delay and slip risk."
+                  },
+              
+                  "Elderly": {
+                    "delta": { "M": -3 },
+                    "probability": [
+                      { "condition": "M >= -1", "chance": 0.65, "effect": { "S": 1 } },
+                      { "condition": "M >= -1", "chance": 0.35, "effect": { "S": -2 } },
+                      { "condition": "M < -1", "chance": 0.5, "effect": { "S": 1 } },
+                      { "condition": "M < -1", "chance": 0.5, "effect": { "S": -3 } }
+                    ],
+                    "comment": "Limited balance and stamina significantly increase stair evacuation risk."
+                  }
+              
+                },
+              
+                "flag": "VERTICAL_EVAC",
+                "next": "ROUTER_COASTAL"
+              },
+            {
+            "id": "B",
+            "label": "B. Try to drive to the inland high ground before the salt water destroys your engine.",
+            "delta": { "M": -2 },
+            "probability": [
+                { "chance": 0.25, "effect": { "S": 1 } },
+                { "chance": 0.75, "effect": { "S": -3 } }
+            ],
+            "persona_overrides": {
+                "Caregiver": {
+                "probability": [
+                    { "chance": 0.2, "effect": { "S": 1 } },
+                    { "chance": 0.8, "effect": { "S": -4 } }
+                ],
+                "comment": "Getting everyone buckled in took too long. The car stalls in the deepening water. You are trapped in a floating metal cage with your family."
+                },
+                "Elderly": {
+                "probability": [
+                    { "chance": 0.15, "effect": { "S": 1 } },
+                    { "chance": 0.85, "effect": { "S": -5 } }
+                ],
+                "comment": "Your vision is blurred by the storm and your grip is weak. The vehicle is swept away by a sudden surge almost immediately."
+                }
+            },
+            "flag": "EVACUATED",
+            "next": "ROUTER_COASTAL"
+            },
+            {
+            "id": "C",
+            "label": "C. Stay on the ground floor, using whatever you have to seal the doors and windows against the surge.",
+            "delta": { "R": -1, "HR": 2 },
+            "probability": [
+                { "chance": 0.1, "effect": { "S": -3 } },
+                { "chance": 0.9, "effect": { "S": -5 } }
+            ],
+            "persona_overrides": {
+                "Caregiver": {
+                "delta": { "R": -2, "HR": 3, "S": -1 },
+                "comment": "A catastrophic error. You have pinned your family into a corner. When the door gives way, there is nowhere to run."
+                },
+                "Elderly": {
+                "delta": { "R": -1, "HR": 2, "M": -2 },
+                "comment": "The surge pressure is too strong for your strength. The window shatters, leaving you injured and trapped in rising, cold water."
+                }
+            },
+            "flag": "HIGH_RISK",
+            "next": "ROUTER_COASTAL"
+            }
+        ]
+        },
+  
+      "ROUTER_COASTAL": {
+        "type": "router",
+        "conditions": [
+            { "if": "S <= -5", "next": "FEEDBACK_FATAL_COASTAL" }
+        ],
+        "default_next": "ROUTER_COASTAL_MULTI"
+        },
+
+        "ROUTER_COASTAL_MULTI": {
+        "type": "router_multi",
+        "conditions": [
+            { "if": "S < 0", "next": "FEEDBACK_INJURY_COASTAL" },
+            { "if": "M < -3", "next": "FEEDBACK_EXHAUSTION_COASTAL" },
+            { "if": "HR >= 2", "next": "FEEDBACK_RISK_COASTAL" }
+        ],
+        "next_after_feedback": "DAY2_POST_IMPACT_ROUTER"
+        },
+
+        "FEEDBACK_FATAL_COASTAL": {
+        "type": "narrative",
+        "text": "⚠️ CATASTROPHIC IMPACT\n\nFinal Safety Score (S): {S}\n\nThe ocean is an unforgiving force. The structural failure or the surge's velocity has overwhelmed your defenses. In this simulation, your journey ends here—a stark reminder that against a storm surge, time and physics do not negotiate.",
+        "next": "OUTCOME"
+        },
+
+        "FEEDBACK_INJURY_COASTAL": {
+        "type": "narrative",
+        "text": "🚑 TRAUMA ALERT\n\nCurrent Safety (S): {S}\n\nYou are alive, but the impact was brutal. Whether from debris-filled water or a fall during evacuation, you have sustained significant injuries. Your capacity to manage the next 24 hours is severely diminished.",
+        "next": "ROUTER_COASTAL_MULTI"
+        },
+
+        "FEEDBACK_EXHAUSTION_COASTAL": {
+        "type": "narrative",
+        "text": "🛑 PHYSICAL COLLAPSE\n\nCurrent Mobility (M): {M}\n\nYou reached safety, but your reserves are gone. For an elderly survivor or a caregiver, this level of exhaustion is a hazard in itself. You are now immobile, making you entirely dependent on external rescue.",
+        "next": "ROUTER_COASTAL_MULTI"
+        },
+
+        "FEEDBACK_RISK_COASTAL": {
+        "type": "narrative",
+        "text": "🚩 CRITICAL ERRORS\n\nHigh Risk Count: {HR}\n\nIgnoring evacuation orders in a coastal zone is a statistically fatal choice. You have survived the initial wave by pure chance, but your 'High Risk' profile will heavily penalize your final resilience score.",
+        "next": "ROUTER_COASTAL_MULTI"
+        }, 
+
+
+      "RIVER_EVENT": {
+        "type": "decision",
+        "text": "Within minutes, muddy water pushes through your front door. It is colder than you expected. Furniture begins to float slightly before tipping over. The current is not calm — it presses sideways. Outside, you see a neighbor trying to drive through what looks like shallow water. Your power outlets are only 40 centimeters above the floor. One more hour, and they will be submerged.",
+        "options": [
+            {
+                "id": "A",
+                "label": "A. Cut the main power breaker now and move to the upper floor.",
+                "delta": { "FM": 1, "M": -1 },
+              
+                "probability": [
+                  { "condition": "FM >= 1", "chance": 0.9, "effect": { "S": 1 } },
+                  { "condition": "FM >= 1", "chance": 0.1, "effect": { "S": -1 } },
+                  { "condition": "FM == 0", "chance": 0.6, "effect": { "S": 1 } },
+                  { "condition": "FM == 0", "chance": 0.4, "effect": { "S": -2 } }
+                ],
+              
+                "persona_overrides": {
+              
+                  "Caregiver": {
+                    "delta": { "M": -2 },
+                    "probability": [
+                      { "condition": "FM >= 1", "chance": 0.8, "effect": { "S": 1 } },
+                      { "condition": "FM >= 1", "chance": 0.2, "effect": { "S": -2 } },
+                      { "condition": "FM == 0", "chance": 0.5, "effect": { "S": 1 } },
+                      { "condition": "FM == 0", "chance": 0.5, "effect": { "S": -3 } }
+                    ],
+                    "comment": "Managing children in rising floodwater increases delay and exposure."
+                  },
+              
+                  "Elderly": {
+                    "delta": { "M": -3, "HR": 1 },
+                    "probability": [
+                      { "condition": "FM >= 1", "chance": 0.7, "effect": { "S": 1 } },
+                      { "condition": "FM >= 1", "chance": 0.3, "effect": { "S": -2 } },
+                      { "condition": "FM == 0", "chance": 0.4, "effect": { "S": 1 } },
+                      { "condition": "FM == 0", "chance": 0.6, "effect": { "S": -3 } }
+                    ],
+                    "comment": "Limited dexterity increases electrocution and slip risk."
+                  }
+              
+                },
+              
+                "flag": "VERTICAL_EVAC",
+                "next": "ROUTER_RIVER"
+              },
+            {
+            "id": "B",
+            "label": "B. Try to drive to the main bridge before the road becomes a river.",
+            "delta": { "M": -2 },
+            "probability": [
+                { "chance": 0.2, "effect": { "S": 1 } },
+                { "chance": 0.8, "effect": { "S": -4 } }
+            ],
+            "persona_overrides": {
+                "Caregiver": {
+                "delta": { "HR": 2 },
+                "probability": [
+                    { "chance": 0.1, "effect": { "S": 1 } },
+                    { "chance": 0.9, "effect": { "S": -5 } }
+                ],
+                "comment": "The water depth is deceptive. The car engine sucks in mud and dies halfway. You are now stuck in a metal box with water rising to the windows."
+                },
+                "Elderly": {
+                "delta": { "HR": 2 },
+                "probability": [
+                    { "chance": 0.05, "effect": { "S": 1 } },
+                    { "chance": 0.95, "effect": { "S": -5 } }
+                ],
+                "comment": "Your vision is poor in the deluge. The current catches the car and spins it towards the canal. Survival is now out of your hands."
+                }
+            },
+            "flag": "EVACUATED",
+            "next": "ROUTER_RIVER"
+            },
+            {
+            "id": "C",
+            "label": "C. Move electronics to high shelves and block the door with towels before heading up.",
+            "delta": { "R": 1, "S": -1 },
+            "probability": [
+                { "chance": 0.5, "effect": { "S": -1 } },
+                { "chance": 0.5, "effect": { "S": -3 } }
+            ],
+            "persona_overrides": {
+                "Caregiver": {
+                "delta": { "R": 0, "S": -3, "HR": 1 },
+                "comment": "By wasting time saving 'things,' you are forced to lift your children through chest-deep, sewage-contaminated water to reach the stairs."
+                },
+                "Elderly": {
+                "delta": { "R": 1, "M": -3, "HR": 2 },
+                "comment": "You successfully saved the documents, but the physical exertion in the cold water has left you shivering and unable to climb to safety."
+                }
+            },
+            "flag": "DELAY",
+            "next": "ROUTER_RIVER"
+            }
+        ]
+        },
+  
+     "ROUTER_RIVER": {
+        "type": "router",
+        "conditions": [
+            { "if": "S <= -5", "next": "FEEDBACK_FATAL_RIVER" }
+        ],
+        "default_next": "ROUTER_RIVER_MULTI"
+        },
+
+        "ROUTER_RIVER_MULTI": {
+        "type": "router_multi",
+        "conditions": [
+            { "if": "HR >= 2", "next": "FEEDBACK_ELECTROCUTION_RISK" },
+            { "if": "M < -3", "next": "FEEDBACK_EXHAUSTION_RIVER" },
+            { "if": "S < 0", "next": "FEEDBACK_CONTAMINATION_ALERT" }
+        ],
+        "next_after_feedback": "DAY2_POST_IMPACT_ROUTER"
+        },
+
+        "FEEDBACK_FATAL_RIVER": {
+        "type": "narrative",
+        "text": "⚠️ CRITICAL FAILURE: SUBMERGED\n\nFinal Safety Score (S): {S}\n\nYou underestimated the deceptive power of moving water. Whether trapped in a stalled vehicle or overwhelmed by the rising current inside your home, the environment has become unsurvivable. In urban flooding, the window between 'trouble' and 'tragedy' is measured in seconds.",
+        "next": "OUTCOME"
+        },
+
+        "FEEDBACK_ELECTROCUTION_RISK": {
+        "type": "narrative",
+        "text": "⚡ HAZARD ALERT: ELECTRICAL CONDUCTIVITY\n\nHigh Risk Count: {HR}\n\nBy delaying the power cut or wading through water near active outlets, you have exposed yourself to lethal electrocution risks. You survived this moment, but you are now navigating a 'Hot Zone' where one wrong step in the dark could be your last.",
+        "next": "ROUTER_RIVER_MULTI"
+        },
+
+        "FEEDBACK_EXHAUSTION_RIVER": {
+        "type": "narrative",
+        "text": "🥶 HYPOTHERMIA & EXHAUSTION\n\nCurrent Mobility (M): {M}\n\nFloodwater is colder than it looks, and moving through it drains energy 3x faster than normal. Your mobility has collapsed. For a vulnerable survivor, this physical depletion often leads to secondary health crises long before the water recedes.",
+        "next": "ROUTER_RIVER_MULTI"
+        },
+
+        "FEEDBACK_CONTAMINATION_ALERT": {
+        "type": "narrative",
+        "text": "☣️ BIOHAZARD EXPOSURE\n\nCurrent Safety (S): {S}\n\nYou have been forced to wade through contaminated water. In river floods, this water carries sewage, chemicals, and pathogens. Your safety margin is dropping as the risk of water-borne illness and infection becomes a ticking clock.",
+        "next": "ROUTER_RIVER_MULTI"
+        },
+
+
+     "HILL_EVENT": {
+        "type": "decision",
+        "text": "The rain has not stopped for nearly a day. You notice a thin crack running across the wall, but it was not there yesterday. A low rumble moves beneath your feet, subtle but real. A tree on the slope tilts slightly downhill. The soil smells raw and exposed. You remember hearing that landslides do not move slowly, they move all at once.",
+        "options": [
+            {
+            "id": "A",
+            "label": "A. Abandon your belongings and sprint horizontally, across the slope, toward the rocky ridge.",
+            "delta": { "LA": 1, "M": -2 },
+            "probability": [
+                { "chance": 0.8, "effect": { "S": 2 } },
+                { "chance": 0.2, "effect": { "S": -1 } }
+            ],
+            "persona_overrides": {
+                "Caregiver": {
+                "delta": { "LA": 1, "M": -4 },
+                "probability": [
+                    { "chance": 0.5, "effect": { "S": 2 } },
+                    { "chance": 0.5, "effect": { "S": -3 } }
+                ],
+                "comment": "Moving a family across the saturated mud is agonizingly slow. You are literally dragging them to safety as the slope behind you groans. One child slips, delaying you further."
+                },
+                "Elderly": {
+                "delta": { "LA": 1, "M": -4, "S": -1 },
+                "probability": [
+                    { "chance": 0.35, "effect": { "S": 1 } },
+                    { "chance": 0.65, "effect": { "S": -2 } }
+                ],
+                "comment": "You know the right direction, but your legs won't move fast enough. You are only halfway to the ridge when the roar of the slide begins. The physical toll is permanent."
+                }
+            },
+            "flag": ["EVACUATED", "CORRECT_DIRECTION"],
+            "next": "ROUTER_HILL"
+            },
+            {
+            "id": "B",
+            "label": "B. Stay indoors and brace yourself in the most reinforced part of the house.",
+            "delta": { "HR": 2, "S": -2 },
+            "probability": [
+                { "chance": 0.4, "effect": { "S": -1 } },
+                { "chance": 0.6, "effect": { "S": -4 } }
+            ],
+            "persona_overrides": {
+                "Caregiver": {
+                "delta": { "HR": 3, "S": -1 },
+                "probability": [
+                    { "chance": 0.2, "effect": { "S": -2 } },
+                    { "chance": 0.8, "effect": { "S": -5 } }
+                ],
+                "comment": "A fatal gamble. The house offers no protection against the sheer mass of mud and boulders. You've trapped your children inside a tomb."
+                },
+                "Elderly": {
+                "delta": { "HR": 2, "S": -2 },
+                "comment": "Exhaustion and fear have paralyzed you. You stay in your armchair, praying the old walls hold, but you feel the foundation tilting as the earth begins to flow."
+                }
+            },
+            "flag": "HIGH_RISK",
+            "next": "ROUTER_HILL"
+            },
+            {
+            "id": "C",
+            "label": "C. Run straight down the hill as fast as possible to get away from the house.",
+            "delta": { "M": -2, "HR": 1 },
+            "probability": [
+                { "chance": 0.01, "effect": { "S": 1 } },
+                { "chance": 0.99, "effect": { "S": -5 } }
+            ],
+            "persona_overrides": {
+                "Caregiver": {
+                "delta": { "M": -3, "S": -1 },
+                "probability": [
+                    { "chance": 0.0, "effect": { "S": -5 } },
+                    { "chance": 1.0, "effect": { "S": -5 } }
+                ],
+                "comment": "TRAP: Running downhill means racing the landslide itself. With children in tow, you have zero chance. The debris flow is ten times faster than you."
+                },
+                "Elderly": {
+                "delta": { "M": -4, "HR": 2 },
+                "comment": "You try to run, but you trip almost immediately. You are now lying exposed in the direct path of the downward flow with a broken hip."
+                }
+            },
+            "flag": "WRONG_DIRECTION",
+            "next": "ROUTER_HILL"
+            }
+        ]
+        },
+  
+      "ROUTER_HILL": {
+        "type": "router",
+        "conditions": [
+            { "if": "S <= -5", "next": "FEEDBACK_FATAL_HILL" }
+        ],
+        "default_next": "ROUTER_HILL_MULTI"
+        },
+
+        "ROUTER_HILL_MULTI": {
+        "type": "router_multi",
+        "conditions": [
+            { "if": "flags.includes('WRONG_DIRECTION')", "next": "FEEDBACK_DIRECTION_ERROR" },
+            { "if": "M < -3", "next": "FEEDBACK_MOBILITY_CRISIS" },
+            { "if": "S < 0", "next": "FEEDBACK_STRUCTURAL_FAILURE" }
+        ],
+        "next_after_feedback": "DAY2_POST_IMPACT_ROUTER"
+        },
+
+        "FEEDBACK_FATAL_HILL": {
+        "type": "narrative",
+        "text": "### ⚠️ BURIED: MASS WASTING EVENT\n\nFinal Safety Score (S): {S}\n\nA landslide is not a flood; it is a wall of debris moving at highway speeds. Whether trapped inside a collapsing structure or caught in the direct path of the flow, survival was physically impossible. This outcome is a stark illustration of the catastrophic nature of slope failure.",
+        "next": "OUTCOME"
+        },
+
+        "FEEDBACK_DIRECTION_ERROR": {
+        "type": "narrative",
+        "text": "🚩 TACTICAL ERROR: RUNNING DOWNHILL\n\nHigh Risk Count: {HR}\n\nYou attempted to outrun the slide by moving downhill—the path of maximum velocity for debris. You survived by a mathematical miracle, but your risk profile is now critical. In mountain hazards, lateral movement (sideways) is the only scientific escape.",
+        "next": "ROUTER_HILL_MULTI"
+        },
+
+        "FEEDBACK_MOBILITY_CRISIS": {
+        "type": "narrative",
+        "text": "😫 TOTAL PHYSICAL DEPLETION\n\nCurrent Mobility (M): {M}\n\nEscaping across saturated, shifting soil is a massive physical undertaking. For a Caregiver or Elderly survivor, this exertion has pushed your cardiovascular and musculoskeletal systems to the breaking point. You are safe from the slide, but you are now physically incapacitated.",
+        "next": "ROUTER_HILL_MULTI"
+        },
+
+        "FEEDBACK_STRUCTURAL_FAILURE": {
+        "type": "narrative",
+        "text": "🏚️ SECONDARY IMPACT ALERT\n\nCurrent Safety (S): {S}\n\nThe house has held, but the foundation is compromised. You are breathing dust from crumbling mortar and the structure remains unstable. While not fatal yet, your refusal to evacuate laterally has left you in a high-vulnerability state for the next tremor or rain band.",
+        "next": "ROUTER_HILL_MULTI"
+        },
+
+
+      "DAY2_POST_IMPACT_ROUTER": {
+        "type": "router",
+        "conditions": [
+            {
+            "if": "flags.includes('EVACUATED')",
+            "next": "SHELTER_PHASE_1"
+            },
+            {
+            "if": "flags.includes('DELAY')",
+            "apply_delta": { "HR": 1 },
+            "next": "DAY3_START_1"
+            }
+        ],
+        "default_next": "DAY3_START_1"
+        },
+
+      "SHELTER_PHASE_1": {
+        "type": "narrative",
+        "text": "You reach a temporary evacuation shelter at a nearby school building. Dozens of families are already inside. The storm continues outside. Volunteers are organizing sleeping areas. Supplies are limited.",
+        "next": "SHELTER_DECISION"
+      },
+
+      "SHELTER_DECISION": {
+        "type": "decision",
+        "text": "The shelter coordinator instructs everyone to remain inside until official clearance. Some residents want to leave early to check their homes. The air inside the school is thick with humidity and the sound of crying children. You are exhausted, and the floor is hard. Your anxiety about your home's condition is eating you alive.",
+        "options": [
+            {
+                "id": "A",
+                "label": "A. Follow the coordinator's orders and wait for official clearance.",
+                "delta": { "SC": 2, "S": 1, "M": -1 },
+              
+                "probability": [
+                  { "condition": "SC >= 1", "chance": 0.8, "effect": { "S": 1 } },
+                  { "condition": "SC >= 1", "chance": 0.2, "effect": { "S": -1 } },
+                  { "condition": "SC < 1", "chance": 0.5, "effect": { "S": 1 } },
+                  { "condition": "SC < 1", "chance": 0.5, "effect": { "S": -2 } }
+                ],
+              
+                "persona_overrides": {
+              
+                  "Caregiver": {
+                    "delta": { "M": -2 },
+                    "probability": [
+                      { "condition": "SC >= 1", "chance": 0.7, "effect": { "S": 1 } },
+                      { "condition": "SC >= 1", "chance": 0.3, "effect": { "S": -1 } },
+                      { "condition": "SC < 1", "chance": 0.4, "effect": { "S": 1 } },
+                      { "condition": "SC < 1", "chance": 0.6, "effect": { "S": -2 } }
+                    ],
+                    "comment": "Managing dependents in cramped shelter space increases fatigue."
+                  },
+              
+                  "Elderly": {
+                    "delta": { "M": -1 },
+                    "probability": [
+                      { "condition": "SC >= 1", "chance": 0.85, "effect": { "S": 1 } },
+                      { "condition": "SC >= 1", "chance": 0.15, "effect": { "S": -1 } },
+                      { "condition": "SC < 1", "chance": 0.6, "effect": { "S": 1 } },
+                      { "condition": "SC < 1", "chance": 0.4, "effect": { "S": -2 } }
+                    ],
+                    "comment": "Staying reduces strain compared to moving outside."
+                  }
+              
+                },
+              
+                "flag": "SHELTER_DISCIPLINE",
+                "next": "ROUTER_SHELTER"
+              },
+            {
+            "id": "B",
+            "label": "B. Sneak out to inspect your house and salvage what remains before the looters or the high water return.",
+            "delta": { "HR": 1, "SC": -1 },
+            "probability": [
+                { "chance": 0.3, "effect": { "S": 1 } },
+                { "chance": 0.7, "effect": { "S": -3 } }
+            ],
+            "persona_overrides": {
+                "Caregiver": { 
+                "probability": [
+                    { "chance": 0.1, "effect": { "S": 1 } },
+                    { "chance": 0.9, "effect": { "S": -4 } }
+                ],
+                "comment": "A reckless move. Navigating children through debris and hidden live wires after a storm is a death trap. You are forced to turn back, injured." 
+                },
+                "Elderly": { 
+                "delta": { "HR": 2, "M": -3 },
+                "probability": [
+                    { "chance": 0.1, "effect": { "S": 0 } },
+                    { "chance": 0.9, "effect": { "S": -3 } }
+                ],
+                "comment": "The roads are unrecognizable. You trip over hidden rubble and the walk back takes four times longer than expected." 
+                }
+            },
+            "flag": "HIGH_RISK",
+            "next": "ROUTER_SHELTER"
+            },
+            {
+            "id": "C",
+            "label": "C. Negotiate for extra blankets, a better corner, and priority for the next food batch.",
+            "delta": { "SC": -2, "R": 2 },
+            "persona_overrides": {
+                "Caregiver": { 
+                "delta": { "SC": -3, "R": 2, "S": 1 }, 
+                "comment": "You secured comfort for your kids, but the community is watching you with resentment. You've traded friends for blankets." 
+                },
+                "Elderly": { 
+                "delta": { "SC": -2, "R": 1, "S": -1 }, 
+                "comment": "Your attempt to hoard a quiet spot backfires. You've alienated the very people you might need to lean on tomorrow." 
+                }
+            },
+            "flag": "SOCIAL_WITHDRAWAL",
+            "next": "ROUTER_SHELTER"
+            }
+        ]
+        },
+
+     "ROUTER_SHELTER": {
+        "type": "router_multi",
+        "conditions": [
+            { "if": "S < 0", "next": "FEEDBACK_POST_STORM_HAZARD" },
+            { "if": "SC <= -2", "next": "FEEDBACK_SOCIAL_FRICTION" },
+            { "if": "M < -3", "next": "FEEDBACK_CUMULATIVE_FATIGUE" },
+            { "if": "SC >= 2", "next": "FEEDBACK_TRUST_BUILDING" }
+        ],
+        "next_after_feedback": "DAY3_START_1"
+        },
+
+        "FEEDBACK_POST_STORM_HAZARD": {
+        "type": "narrative",
+        "text": "🚑 SECONDARY TRAUMA ALERT\n\nCurrent Safety (S): {S}\n\nYou left the safety of the shelter prematurely. The landscape outside is a 'Hot Zone' of downed power lines, unstable debris, and contaminated water. Your safety margin has suffered a critical hit—survival is no longer guaranteed even though the winds have died down.",
+        "next": "ROUTER_SHELTER"
+        },
+
+        "FEEDBACK_SOCIAL_FRICTION": {
+        "type": "narrative",
+        "text": "📉 SOCIAL CAPITAL DEPLETION\n\nSocial Capital (SC): {SC}\n\nBy prioritizing personal comfort or hoarding resources within the shelter, you have alienated your fellow survivors. In the long-term recovery phase, 'Social Capital' is the only currency that matters. You are now perceived as an opportunist, not a neighbor.",
+        "next": "ROUTER_SHELTER"
+        },
+
+        "FEEDBACK_CUMULATIVE_FATIGUE": {
+        "type": "narrative",
+        "text": "😫 SYSTEMIC EXHAUSTION\n\nCurrent Mobility (M): {M}\n\nThe stress of the shelter environment, combined with previous physical exertion, has pushed your body into systemic fatigue. For a Caregiver or Elderly survivor, this state makes you highly vulnerable to post-disaster illness. Your recovery will be slow.",
+        "next": "ROUTER_SHELTER"
+        },
+
+        "FEEDBACK_TRUST_BUILDING": {
+        "type": "narrative",
+        "text": "🤝 COMMUNITY COHESION\n\nSocial Capital (SC): {SC}\n\nBy respecting shelter discipline and supporting the coordinator, you have earned 'Resilience Equity.' Your neighbors now view you as a reliable anchor. This trust will be your strongest shield during the coming weeks of reconstruction.",
+        "next": "ROUTER_SHELTER"
+        }, 
+
+
+      "DAY3_START_1": {
+        "type": "narrative",
+        "text": "Day 3. The wind has stopped. It feels calm.",
+        "next": "DAY3_START_2"
+        },
+
+        "DAY3_START_2": {
+        "type": "narrative",
+        "text": "The streets are covered in mud. Power lines are down.",
+        "next": "DAY3_START_3"
+        },
+
+        "DAY3_START_3": {
+        "type": "narrative",
+        "text": "There is no phone signal. Roads are partially blocked.",
+        "next": "DAY3_WATER"
+        },
+
+  
+      "DAY3_WATER": {
+        "type": "decision",
+        "text": "The heat returns after the storm, turning the humidity into a suffocating blanket. Your throat is parched. The main supply is broken; the only water source is the stagnant pool in your backyard well, filled with runoff and debris. You can feel the onset of dehydration — a dull headache that makes every decision feel sluggish.",
+        "options": [
+            {
+            "id": "A",
+            "label": "A. Chemical Treatment. Use the purification tablets from your Go-Bag and strictly ration the remaining bottled water.",
+            "requires_flag": "HAS_KIT",
+            "delta": { "S": 2, "R": -2 },
+            "persona_overrides": {
+                "Caregiver": {
+                "delta": { "S": 2, "R": -4, "SC": 1 },
+                "comment": "Rationing for four is an impossible math. You give the last clean drops to the children and the elderly, leaving yourself weakened and thirsty."
+                },
+                "Elderly": {
+                "delta": { "S": 2, "R": -2, "M": 1 },
+                "comment": "The tablets save you from the physical toll of fetching water. You maintain your strength while others collapse from the heat."
+                }
+            },
+            "flag": "SAFE_WATER",
+            "next": "ROUTER_WATER"
+            },
+            {
+            "id": "B",
+            "label": "B. Traditional Boiling. Scavenge for dry wood among the debris and maintain a fire to boil the murky well water.",
+            "delta": { "S": 1, "R": -1, "M": -2 },
+            "persona_overrides": {
+                "Caregiver": {
+                "delta": { "S": 1, "R": -1, "M": -3 },
+                "comment": "Hours of hauling water and tending a fire in the humidity leaves you dangerously overextended. You have clean water, but you are physically spent."
+                },
+                "Elderly": {
+                "delta": { "S": -1, "M": -4, "HR": 1 },
+                "comment": "TRAP: The smoke triggers a coughing fit, and the weight of the pots is too much. You manage only a few cups before spilling the rest and scalding yourself."
+                }
+            },
+            "flag": "PARTIAL_WATER",
+            "next": "ROUTER_WATER"
+            },
+            {
+            "id": "C",
+            "label": "C. Calculated Risk. Drink the rainwater collected in the garden buckets. It looks clear, and you need to save your energy.",
+            "delta": { "HR": 2, "S": -2 },
+            "probability": [
+                { "chance": 0.2, "effect": { "S": 0 } },
+                { "chance": 0.8, "effect": { "S": -4 } }
+            ],
+            "persona_overrides": {
+                "Caregiver": {
+                "probability": [
+                    { "chance": 0.05, "effect": { "S": 0 } },
+                    { "chance": 0.95, "effect": { "S": -5 } }
+                ],
+                "comment": "A disaster within a disaster. The bacteria hit the children first. By nightfall, you are managing a medical emergency with no help in sight."
+                },
+                "Elderly": {
+                "delta": { "M": -3 },
+                "probability": [
+                    { "chance": 0.1, "effect": { "S": -1 } },
+                    { "chance": 0.9, "effect": { "S": -5 } }
+                ],
+                "comment": "In your fragile state, water-borne pathogens trigger rapid organ stress. You are bedridden and completely dependent on others."
+                }
+            },
+            "flag": "HIGH_RISK",
+            "next": "ROUTER_WATER"
+            }
+        ]
+        },
+
+      "ROUTER_WATER": {
+        "type": "router",
+        "conditions": [
+            { "if": "S <= -5", "next": "FEEDBACK_FATAL_ILLNESS" }
+        ],
+        "default_next": "ROUTER_WATER_MULTI"
+        },
+
+        "ROUTER_WATER_MULTI": {
+        "type": "router_multi",
+        "conditions": [
+            { "if": "flags.includes('HIGH_RISK')", "next": "FEEDBACK_PATHOGEN_EXPOSURE" },
+            { "if": "R < -2", "next": "FEEDBACK_RESOURCE_BANKRUPTCY" },
+            { "if": "M < -4", "next": "FEEDBACK_PHYSICAL_LIMIT" }
+        ],
+        "next_after_feedback": "DAY3_COMMUNITY"
+        },
+
+        "FEEDBACK_FATAL_ILLNESS": {
+        "type": "narrative",
+        "text": "⚠️ CRITICAL HEALTH FAILURE\n\nFinal Safety Score (S): {S}\n\nThe 'Invisible Killer' has struck. By consuming contaminated water, you or your dependents have contracted a rapid-onset waterborne disease. In a post-disaster environment with no functional clinics, dehydration from illness is swifter than dehydration from thirst. Your journey ends here.",
+        "next": "OUTCOME"
+        },
+
+        "FEEDBACK_PATHOGEN_EXPOSURE": {
+        "type": "narrative",
+        "text": "☣️ EPIDEMIOLOGICAL RISK\n\nHigh Risk Count: {HR}\n\nYou have ingested untreated rainwater. While you don't feel the effects yet, you have exposed your internal systems to runoff bacteria and sediment. Your safety margin has collapsed. In disaster medicine, this is known as the 'Secondary Crisis'—surviving the wind only to fall to the water.",
+        "next": "ROUTER_WATER_MULTI"
+        },
+
+        "FEEDBACK_RESOURCE_BANKRUPTCY": {
+        "type": "narrative",
+        "text": "📉 RESOURCE BANKRUPTCY\n\nCurrent Resources (R): {R}\n\nYour survival kit and rations are officially exhausted. For a Caregiver, this means you are now entirely dependent on external aid for the next meal. You have traded your long-term economic resilience for immediate biological safety.",
+        "next": "ROUTER_WATER_MULTI"
+        },
+
+        "FEEDBACK_PHYSICAL_LIMIT": {
+        "type": "narrative",
+        "text": "🛑 PHYSIOLOGICAL REDLINE\n\nCurrent Mobility (M): {M}\n\nBetween the heat and the manual labor of boiling water, your body has entered a state of heat exhaustion. Your mobility is at an absolute minimum. You are safe from thirst, but you are physically incapable of participating in any upcoming community recovery efforts.",
+        "next": "ROUTER_WATER_MULTI"
+        },
+
+
+      "DAY3_COMMUNITY": {
+        "type": "decision",
+        "text": "The atmosphere is volatile. Rumors of supply shortages are spreading faster than the relief trucks are arriving. A group of neighbors is gathering, shouting about clearing the road, but they look exhausted and disorganized. 'If we don't open the path now, the trucks will bypass us!' one yells. You are at your breaking point—dizzy from thirst and your muscles are trembling.",
+        "options": [
+
+            {
+            "id": "A",
+            "label": "A. Join the disorganized crowd and help clear the road.",
+            "requires_value": { "M": { "min": -2 } },
+            "delta": { "SC": 3, "S": 1 },
+
+            "probability": [
+                { "condition": "SC >= 2", "chance": 0.7, "effect": { "S": 2, "M": -2 } },
+                { "condition": "SC >= 2", "chance": 0.3, "effect": { "S": -1, "M": -3 } },
+                { "condition": "SC < 2", "chance": 0.4, "effect": { "S": 2, "M": -2 } },
+                { "condition": "SC < 2", "chance": 0.6, "effect": { "S": -2, "M": -3 } }
+            ],
+
+            "persona_overrides": {
+                "Caregiver": {
+                "probability": [
+                    { "condition": "SC >= 2", "chance": 0.6, "effect": { "S": 2, "M": -3 } },
+                    { "condition": "SC >= 2", "chance": 0.4, "effect": { "S": -2, "M": -4 } },
+                    { "condition": "SC < 2", "chance": 0.3, "effect": { "S": 2, "M": -3 } },
+                    { "condition": "SC < 2", "chance": 0.7, "effect": { "S": -3, "M": -4 } }
+                ]
+                },
+                "Elderly": {
+                "delta": { "M": -2 },
+                "probability": [
+                    { "condition": "SC >= 2", "chance": 0.5, "effect": { "S": 2 } },
+                    { "condition": "SC >= 2", "chance": 0.5, "effect": { "S": -1, "M": -2 } },
+                    { "condition": "SC < 2", "chance": 0.3, "effect": { "S": 1 } },
+                    { "condition": "SC < 2", "chance": 0.7, "effect": { "S": -2, "M": -3 } }
+                ]
+                }
+            },
+
+            "flag": "COMMUNITY_ACTION",
+            "next": "OUTCOME"
+            },
+
+            {
+            "id": "B",
+            "label": "B. Secure the Inner Perimeter. You cannot help others if you collapse. Use your last strength to fortify your immediate space and rest.",
+            "delta": { "S": 2, "M": 1, "SC": -1 },
+
+            "persona_overrides": {
+                "Caregiver": {
+                "delta": { "S": 2, "R": 1 }
+                }
+            },
+
+            "next": "OUTCOME"
+            },
+
+            {
+            "id": "C",
+            "label": "C. With relief delayed, resources will soon become a source of conflict. Keep your head down and stay hidden.",
+            "delta": { "SC": -3, "R": 2 },
+
+            "persona_overrides": {
+                "Elderly": {
+                "delta": { "S": -3, "SC": -4 }
+                }
+            },
+
+            "flag": "SOCIAL_WITHDRAWAL",
+            "next": "OUTCOME"
+            }
+
+        ]
+        },
+  
+      "OUTCOME": {
+        "type": "outcome"
+      }
+    },
+  
+    "outcomes": [
+  {
+    "priority": 1,
+    "condition": "S <= -5",
+    "result": "Fatal Outcome",
+    "description": "Your journey ends here. Whether it was the overwhelming force of the surge, an ill-fated escape attempt, or the invisible toll of disease, the cumulative risks exceeded your capacity to endure. In disaster management, one fatal leap of faith is often one too many."
+  },
+  {
+    "priority": 2,
+    "condition": "S < -2",
+    "result": "Severely Strained Survival",
+    "description": "You are alive, but at a terrible price. Physical trauma and secondary infections have left you in critical condition. Your recovery will take months, and the lack of preparation has made you entirely dependent on a strained medical system."
+  },
+  {
+    "priority": 3,
+    "condition": "M <= -4 && S >= 1",
+    "result": "The Exhausted Hero",
+    "description": "High safety achieved at the cost of physical burnout. You saved the yourself/family but sustained long-term injury."
+  },
+  {
+    "priority": 4,
+    "condition": "S >= 2 && SC >= 3 && flags.includes('COMMUNITY_ACTION')",
+    "result": "Community Anchor",
+    "description": "You are the gold standard of disaster response. By balancing personal safety with collective action, you not only saved your household but ensured the village's recovery path is clear. You are a leader in the eyes of the DMC and your neighbors."
+  },
+  {
+    "priority": 5,
+    "condition": "S >= 2 && R <= -3",
+    "result": "Resource-Depleted Survivor",
+    "description": "You survived through aggressive preparation, but you are now financially ruined. You spent your last rupee and sold your future for today's safety. You are alive, but you have no seed money to restart your life or business."
+  },
+  {
+    "priority": 6,
+    "condition": "S >= 2 && SC <= -1",
+    "result": "Isolated Resilient Survivor",
+    "description": "You protected yourself with clinical efficiency, but you did so by turning your back on everyone else. In the tight-knit social fabric of Sri Lanka, you are now an outcast. You have walls and food, but no one will help you when the next monsoon comes."
+  },
+  {
+    "priority": 7,
+    "condition": "S >= 1",
+    "result": "Resilient Survivor",
+    "description": "You navigated the risks with a clear head. By prioritizing clean water and basic safety, you avoided the secondary 'quiet' killers of the disaster."
+  },
+  {
+    "priority": 8,
+    "condition": "S < 1",
+    "result": "Barely Endured",
+    "description": "You survived the cyclone, but only just. Luck played a larger role in your survival than strategy. You are traumatized, slightly injured, and facing a very difficult reconstruction period."
+  }
+],
+  
+    "literacy_scoring": {
+  "max_score": 7,
+  "dimensions": [
+    "Warning Response",
+    "Information Verification",
+    "Preparedness",
+    "Hazard Recognition",
+    "Directional Judgment",
+    "Safe Shelter Behavior",
+    "Risk Avoidance",
+    "Community Resilience"
+  ],
+  "rules": [
+    {
+      "id": "warning_response",
+      "dimension": "Warning Response",
+      "condition": "flags.includes('EARLY_ACTION') || flags.includes('SOCIAL_VERIFY')",
+      "score": 1,
+      "explain_success": "You responded immediately to an official early warning. According to the UN Sendai framework for disaster risk reduction, understanding risks and taking proactive measures are key to reducing disaster losses."
+    },
+    {
+      "id": "preparedness",
+      "dimension": "Preparedness",
+      "if": "flags.includes('HAS_KIT')",
+      "score": 1,
+      "explain_success": "You prepared essential emergency supplies in advance."
+    },
+    {
+      "id": "hazard_recognition",
+      "dimension": "Hazard Recognition",
+      "if_any_flag": ["EVACUATED", "VERTICAL_EVAC"],
+      "score": 1,
+      "explain_success": "You recognized direct exposure to hazard and moved away from the most dangerous area."
+    },
+    {
+        "id": "directional_judgment",
+        "dimension": "Directional Judgment",
+        "condition": "location === 'Hill' && flags.includes('CORRECT_DIRECTION')",
+        "score": 1,
+        "explain_success": "You moved laterally away from the landslide slope."
+      },
+    {
+      "id": "shelter_behavior",
+      "dimension": "Safe Evacuation Behavior",
+      "if": "flags.includes('SHELTER_DISCIPLINE')",
+      "score": 1,
+      "explain_success": "You followed official shelter guidance and avoided premature return."
+    },
+    {
+        "id": "risk_avoidance",
+        "dimension": "Risk Avoidance",
+        "condition": "HR == 0 && outcome != 'Fatal Outcome'",
+        "score": 1,
+        "explain_success": "You limited high-risk behavior during the disaster."
+      },
+    {
+      "id": "community_resilience",
+      "dimension": "Community Resilience",
+      "if": "flags.includes('COMMUNITY_ACTION')",
+      "score": 1,
+      "explain_success": "You supported collective recovery efforts."
+    }
+  ]
+}
+  }
