@@ -93,7 +93,9 @@ export function getInitialState(): GameState {
 
   const base = gameData.system.initial_values
   const personaDelta =
-    gameData.personas[persona]?.delta || {}
+   persona in gameData.personas
+    ? (gameData.personas as Record<string, any>)[persona].delta
+    : {}
 
   const vars = gameData.system.variables
   const skills = gameData.system.skills
@@ -180,7 +182,10 @@ function autoRouter(state: GameState): GameState {
 
     while (true) {
   
-      const node = gameData.nodes[state.node]
+      const node =
+        state.node in gameData.nodes
+            ? (gameData.nodes as Record<string, any>)[state.node]
+            : undefined
       if (!node) return state
   
       /* ================= OUTCOME ================= */
@@ -346,7 +351,11 @@ export function applyOption(
     feedbackQueue: [...(state.feedbackQueue || [])]
   }
 
-  const currentNode = gameData.nodes[newState.node]
+
+  const currentNode =
+   newState.node in gameData.nodes
+    ? (gameData.nodes as Record<string, any>)[newState.node]
+    : undefined
   if (!currentNode) return newState
 
   /* FEEDBACK CHAIN */
@@ -396,18 +405,29 @@ export function applyOption(
     }
 
     if (option.requires_value) {
-      for (let key in option.requires_value) {
-        const rule = option.requires_value[key]
-        if (rule.min !== undefined &&
-            newState[key as keyof GameState] < rule.min) {
-          return newState
-        }
-        if (rule.max !== undefined &&
-            newState[key as keyof GameState] > rule.max) {
-          return newState
+
+        const rules =
+          option.requires_value as Record<
+            string,
+            { min?: number; max?: number }
+          >
+      
+        for (const key in rules) {
+      
+          const rule = rules[key]
+      
+          const value =
+            newState[key as keyof GameState] as number
+      
+          if (rule.min !== undefined && value < rule.min) {
+            return newState
+          }
+      
+          if (rule.max !== undefined && value > rule.max) {
+            return newState
+          }
         }
       }
-    }
 
     newState.history.push({
       node: state.node,

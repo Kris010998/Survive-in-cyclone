@@ -25,7 +25,7 @@ export default function Home() {
 
   if (!state || !state.node) return null
 
-  const node = gameData.nodes[state.node]
+  const node = gameData.nodes[state.node as keyof typeof gameData.nodes]
   const background = getBackground(state.node)
 
   if (!node) {
@@ -36,13 +36,22 @@ export default function Home() {
     )
   }
 
-  let displayText = node.text || ""
+  let displayText =
+  "text" in node && typeof node.text === "string"
+    ? node.text
+    : ""
 
-  if (node.text_by_persona)
-    displayText = node.text_by_persona[state.persona] || displayText
+  if ("text_by_persona" in node && node.text_by_persona) {
+    displayText =
+      (node.text_by_persona as Record<string, string>)[state.persona] ||
+      displayText
+  }
 
-  if (node.text_by_location)
-    displayText = node.text_by_location[state.location] || displayText
+  if ("text_by_location" in node && node.text_by_location) {
+    displayText =
+      (node.text_by_location as Record<string, string>)[state.location] ||
+      displayText
+  }
 
   displayText = renderText(displayText, state)
   const isOutcome = !!state.outcome
@@ -127,7 +136,9 @@ return (
 
       {/* ================= DECISION ================= */}
       {node.type === "decision" &&
-        node.options?.map((option: any) => {
+        "options" in node &&
+        Array.isArray(node.options) &&
+        node.options.map((option: any) => {
 
           const lockedByFlag =
             option.requires_flag &&
