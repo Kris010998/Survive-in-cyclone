@@ -49,22 +49,40 @@
     },
   
     "persona_info": {
-    "Standard": "You are an able-bodied adult managing your household independently. You have the luxury of speed and financial autonomy. Your challenge is not capability, but judgment: can you resist the trap of overconfidence?",
-    "Caregiver": "With two children and an elderly parent relying on you, your starting resources are stretched thin, though your social ties are stronger. Physical fatigue accumulates faster for you.",
-    "Elderly": "You live alone with a body that no longer matches your resolve. Your wisdom is deep, but your window for physical response is narrow. For you, survival isn't about muscle; it is about anticipation and social ties."
+    "Standard": {
+        "description":"You are an able-bodied adult managing your household independently. You have the luxury of speed and financial autonomy. Your challenge is not capability, but judgment: can you resist the trap of overconfidence?",
+        "image": "/images/personas/standard.png"
+    },
+    "Caregiver": {
+        "description":"With child and an elderly parent relying on you, your starting resources are stretched thin, though your social ties are stronger. Physical fatigue accumulates faster for you.",
+        "image": "/images/personas/caregiver.png"
+    },
+    "Elderly":{
+        "description": "You live alone with a body that no longer matches your resolve. Your wisdom is deep, but your window for physical response is narrow. For you, survival isn't about muscle; it is about anticipation and social ties.",
+        "image": "/images/personas/elderly.png"
+    }
     },
 
     "location_info": {
-    "Coastal": "You live near the coast in Galle. Storm surge is common.",
-    "River": "You live near the Kelani River. Urban flooding and contamination are common.",
-    "Hill": "You live in the Central Highlands near Kandy. Landslides are common."
+    "Coastal": {
+        "description":"You live near the coast in Galle. Fishing and tourism shape your community.",
+        "image": "/images/locations/coastal.jpg"
+    },
+    "River": {
+        "description":"You live in the dense neighborhoods near the Kelani River. Floods happen here almost every year.",
+        "image": "/images/locations/river.jpg"
+    },
+    "Hill": {
+        "description":"You live in the Central Highlands, near Kandy. The slopes are covered in tea plantations.",
+        "image": "/images/locations/hill.jpg"
+    }
     },
 
     "nodes": {
   
       "DAY0_LOCATION": {
         "type": "narrative",
-        "text": "This is where you live.",
+        "text": "This is where you live:",
         "next_by_location": {
             "Coastal": "COASTAL_1",
             "River": "RIVER_1",
@@ -89,12 +107,7 @@
         },
         "RIVER_2": {
         "type": "narrative",
-        "text": "Today, the drainage canals are already overflowing after hours of rain.",
-        "next": "RIVER_3"
-        },
-        "RIVER_3": {
-        "type": "narrative",
-        "text": "The water in the streets looks brown and carries debris. Traffic jams form quickly here when roads are submerged.",
+        "text": "Today, the drainage canals are already overflowing after hours of rain. The water in the streets looks brown and carries debris. Traffic jams form quickly here when roads are submerged.",
         "next": "DAY1_START_1"
         },
 
@@ -111,29 +124,23 @@
   
       "DAY1_START_1": {
         "type": "narrative",
-        "text": "November 2025. The humid air over Sri Lanka has become unusually still.",
+        "text": "November 2025. The humid air over Sri Lanka has become unusually still. Across Colombo and Galle, conversations have grown quiet.",
         "next": "DAY1_START_2"
         },
 
         "DAY1_START_2": {
         "type": "narrative",
-        "text": "Across Colombo and Galle, conversations have grown quiet.",
+        "text": "Phones begin vibrating across the country. Emergency alerts repeat the same name: Amali.",
         "next": "DAY1_START_3"
         },
 
         "DAY1_START_3": {
         "type": "narrative",
-        "text": "Phones begin vibrating across the country. Emergency alerts repeat the same name: Amali.",
+        "text": "A powerful cyclone is strengthening in the Bay of Bengal. Your window to prepare is shrinking.",
         "next": "DAY1_START_4"
         },
 
         "DAY1_START_4": {
-        "type": "narrative",
-        "text": "A powerful cyclone is strengthening in the Bay of Bengal. Your window to prepare is shrinking.",
-        "next": "DAY1_START_5"
-        },
-
-        "DAY1_START_5": {
         "type": "narrative",
         "text": "Today is the Day one.",
         "next": "DAY1_WARNING"
@@ -981,7 +988,7 @@
 
         "FEEDBACK_FATAL_ILLNESS": {
         "type": "narrative",
-        "text": "⚠️ CRITICAL HEALTH FAILURE\n\nFinal Safety Score (S): {S}\n\nThe 'Invisible Killer' has struck. By consuming contaminated water, you or your dependents have contracted a rapid-onset waterborne disease. In a post-disaster environment with no functional clinics, dehydration from illness is swifter than dehydration from thirst. Your journey ends here.",
+        "text": "⚠️ CRITICAL HEALTH FAILURE\n\nFinal Safety Score (S): {S}\n\nThe 'Invisible Killer' has struck. By consuming contaminated water, you have contracted a rapid-onset waterborne disease. In a post-disaster environment with no functional clinics, dehydration from illness is swifter than dehydration from thirst. Your journey ends here.",
         "next": "OUTCOME"
         },
 
