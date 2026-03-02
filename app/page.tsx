@@ -177,7 +177,7 @@ export default function Home() {
       />
 
         <div className="max-w-4xl mx-auto p-8">
-          <div className="bg-black/60 p-10 rounded-3xl shadow-2xl">
+          <div className="bg-black/50 p-10 rounded-3xl shadow-2xl">
 
             <h1 className="text-4xl font-bold mb-4">
               {state.outcome}
@@ -431,7 +431,7 @@ return (
     <div className="max-w-4xl mx-auto p-8">
 
       {/* Narrative Text Block */}
-      <div className="mb-8 p-8 bg-black/60 rounded-3xl shadow-2xl text-lg leading-relaxed whitespace-pre-line">
+      <div className="mb-8 p-8 bg-black/50 rounded-3xl shadow-2xl text-lg leading-relaxed whitespace-pre-line">
         {displayText}
       </div>
 
@@ -630,7 +630,7 @@ function TopDashboard({
       : "Critical"
 
   return (
-    <div className="relative bg-black/50 backdrop-blur-md border-b border-white/10">
+    <div className="relative bg-black/40 backdrop-blur-md border-b border-white/10">
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 p-1">
 
