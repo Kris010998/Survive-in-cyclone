@@ -634,7 +634,8 @@ function TopDashboard({
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 p-1">
 
-      <div className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-4">
+      <div className="bg-white/5 p-4 rounded-xl border border-white/10 
+                grid grid-cols-2 md:grid-cols-1 gap-4">
 
 {/* Persona Section */}
 <div>
@@ -668,7 +669,7 @@ function TopDashboard({
 {/* Location Section */}
 <div>
 
-  <div className="flex items-center gap-3 mb-2">
+<div className="flex items-center gap-2">
 
     {locationInfo?.image && (
     <img
@@ -740,7 +741,7 @@ function TopDashboard({
           {/* High Risk */}
           <div className="mt-2 pt-2 md:mt-3 md:pt-3 border-t border-white/20">
 
-            <div className="text-xs uppercase tracking-wide text-gray-400 mb-2">
+            <div className="text-[10px] md:text-xs uppercase tracking-wide text-gray-400 mb-1">
               Hazard Accumulation
             </div>
 
@@ -749,7 +750,7 @@ function TopDashboard({
               <span>{state.HR}</span>
             </div>
 
-            <div className="w-full bg-white/20 h-2 rounded-full overflow-hidden">
+            <div className="w-full bg-white/20 h-1.5 md:h-2 rounded-full overflow-hidden">
               <div
                 className="bg-red-600 h-3 transition-all duration-300"
                 style={{
@@ -784,7 +785,7 @@ function BalancedStat({
   const percent = (value - min) / range
 
   return (
-    <div className="mb-1 md:mb-2">
+    <div className="mb-1">
 
       <div className="flex justify-between text-xs md:text-sm mb-1">
         <span>{label}</span>
