@@ -51,7 +51,7 @@ export default function Home() {
         {/* Background Image */}
         <img
           src="/images/start-bg.jpg"
-          className="absolute inset-0 w-full h-[75vh] md:h-full object-cover object-top"
+          className="absolute inset-0 w-full h-full object-cover object-top md:object-center"
         />
   
         {/* Dark Overlay */}
@@ -159,7 +159,7 @@ export default function Home() {
       {locationInfo?.image && (
         <img
           src={locationInfo.image}
-          className="absolute inset-0 w-full h-[75vh] md:h-full object-cover object-top"
+          className="absolute inset-0 w-full h-full object-cover object-top md:object-center"
         />
       )}
 
@@ -336,12 +336,12 @@ return (
   {narrativeBg ? (
     <img
       src={narrativeBg}
-      className="absolute inset-0 w-full h-[75vh] md:h-full object-cover object-top"
+      className="absolute inset-0 w-full h-full object-cover object-top md:object-center"
     />
   ) : locationInfo?.image && showLocationBackground ? (
     <img
       src={locationInfo.image}
-      className="absolute inset-0 w-full h-[75vh] md:h-full object-cover object-top"
+      className="absolute inset-0 w-full h-full object-cover object-top md:object-center"
     />
   ) : (
     <div className="absolute inset-0 bg-slate-900" />
