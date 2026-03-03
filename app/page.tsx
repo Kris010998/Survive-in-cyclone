@@ -179,11 +179,11 @@ export default function Home() {
         <div className="max-w-4xl mx-auto p-8">
           <div className="bg-black/50 p-10 rounded-3xl shadow-2xl">
 
-            <h1 className="text-4xl font-bold mb-4">
+            <h1 className="text-2xl md:text-4xl font-bold mb-4">
               {state.outcome}
             </h1>
 
-            <p className="mb-6 text-gray-200 text-lg">
+            <p className="mb-6 text-gray-200 text-base md:text-lg leading-relaxed">
               {state.outcomeDescription}
             </p>
 
@@ -431,7 +431,7 @@ return (
     <div className="max-w-4xl mx-auto p-8">
 
       {/* Narrative Text Block */}
-      <div className="mb-8 p-8 bg-black/50 rounded-3xl shadow-2xl text-lg leading-relaxed whitespace-pre-line">
+      <div className="mb-8 p-6 md:p-8 bg-black/50 rounded-3xl shadow-2xl text-base md:text-lg leading-relaxed">
         {displayText}
       </div>
 
@@ -830,11 +830,11 @@ function LiteracyPanel({ state }: { state: GameState }) {
 
   return (
     <div className="mb-8 p-6 rounded-2xl bg-green-600/20 border border-green-400">
-      <h2 className="text-xl font-semibold mb-3">
+      <h2 className="text-lg md:text-xl font-semibold mb-3">
         Disaster Literacy Score
       </h2>
 
-      <div className="text-3xl font-bold mb-6">
+      <div className="text-xl md:text-3xl font-bold mb-6">
         {state.literacyScore} / {state.maxLiteracyScore}
       </div>
 
