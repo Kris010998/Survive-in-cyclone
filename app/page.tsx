@@ -1,8 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
+import { supabase } from "@/lib/supabase"
 import gameData from "../data/gameEngine.json"
 import { getInitialState, applyOption, GameState } from "../lib/gameEngine"
+
 
 export default function Home() {
 
@@ -13,6 +15,9 @@ export default function Home() {
   const [showScrollTop, setShowScrollTop] = useState(false)
 
   const [state, setState] = useState<GameState | null>(null)
+  const sessionRef = useRef<string | null>(null)
+
+  const hasInitialized = useRef(false)
 
   const [introStep, setIntroStep] = useState<"persona" | "location" | "done">("persona")
 
@@ -39,10 +44,38 @@ export default function Home() {
   }, [gameStarted])
 
   useEffect(() => {
-    if (gameStarted) {
-      setState(getInitialState())
+  if (!gameStarted) return
+  if (hasInitialized.current) return
+
+  hasInitialized.current = true
+
+  const initGame = async () => {
+
+    // 1️⃣ 生成初始状态
+    const initialState = getInitialState()
+    setState(initialState)
+
+    // 2️⃣ 创建数据库 session
+    const { data, error } = await supabase
+      .from("sessions")
+      .insert({
+        persona: initialState.persona,
+        location: initialState.location
+      })
+      .select()
+      .single()   // 🔥 关键：必须加 single()
+
+    if (error) {
+      console.error("Session creation failed:", error)
+      return
     }
-  }, [gameStarted])
+    // 3️⃣ 保存 session id 到 ref
+    sessionRef.current = data.id
+    }
+
+    initGame()
+
+    }, [gameStarted])
 
   if (!gameStarted) {
     return (
@@ -192,7 +225,23 @@ export default function Home() {
 
             <button
             className="mt-8 w-full p-4 bg-gray-700 hover:bg-gray-600 rounded-xl transition"
-            onClick={() => {
+            onClick={async () => {
+
+              const sid = sessionRef.current
+            
+              if (sid && state) {
+                await supabase
+                  .from("sessions")
+                  .update({
+                    completed: true,
+                    literacy_score: state.literacyScore,
+                    outcome: state.outcome
+                  })
+                  .eq("id", sid)
+              }
+            
+              hasInitialized.current = false
+              sessionRef.current = null
               setState(null)
               setIntroStep("persona")
               setGameStarted(false)
@@ -494,11 +543,33 @@ return (
                   ? "bg-gray-600 opacity-50 cursor-not-allowed"
                   : "bg-blue-600 hover:bg-blue-500 active:scale-[0.98]"
                 }`}
-              onClick={() => {
-                if (!locked) {
-                  setState(applyOption(state, option))
-                }
-              }}
+                onClick={async () => {
+                  if (locked || !state) return
+                
+                  const currentState = state
+                  const nextState = applyOption(currentState, option)
+                  setState(nextState)
+                
+                  const sid = sessionRef.current
+                  if (!sid) return
+                
+                  const { error } = await supabase
+                    .from("decisions")
+                    .insert({
+                      session_id: sid,
+                      node: currentState.node,
+                      option_id: option.id,
+                      safety: currentState.S,
+                      resources: currentState.R,
+                      mobility: currentState.M,
+                      social_capital: currentState.SC,
+                      high_risk: currentState.HR
+                    })
+                
+                  if (error) {
+                    console.error("Decision insert failed:", error)
+                  }
+                }}
             >
               {option.label}
             </button>
