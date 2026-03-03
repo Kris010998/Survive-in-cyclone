@@ -51,7 +51,7 @@ export default function Home() {
         {/* Background Image */}
         <img
           src="/images/start-bg.jpg"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-[75vh] md:h-full object-cover object-top"
         />
   
         {/* Dark Overlay */}
@@ -159,7 +159,7 @@ export default function Home() {
       {locationInfo?.image && (
         <img
           src={locationInfo.image}
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-[75vh] md:h-full object-cover object-top"
         />
       )}
 
@@ -336,12 +336,12 @@ return (
   {narrativeBg ? (
     <img
       src={narrativeBg}
-      className="absolute inset-0 w-full h-full object-cover"
+      className="absolute inset-0 w-full h-[75vh] md:h-full object-cover object-top"
     />
   ) : locationInfo?.image && showLocationBackground ? (
     <img
       src={locationInfo.image}
-      className="absolute inset-0 w-full h-full object-cover"
+      className="absolute inset-0 w-full h-[75vh] md:h-full object-cover object-top"
     />
   ) : (
     <div className="absolute inset-0 bg-slate-900" />
@@ -698,9 +698,11 @@ function TopDashboard({
 
         <div className="bg-white/5 p-1 md:p-1 rounded-xl border border-white/10">
 
-          <div className="flex justify-between mb-2 text-xs uppercase tracking-wide text-gray-400">
-          <span className="text-white md:text-gray-400">Status</span>
-          </div>
+        <div className="flex justify-between mb-2">
+        <span className="text-xs uppercase tracking-wide font-semibold text-white/90 md:text-white/85">
+          Status
+        </span>
+        </div>
 
           <BalancedStat
             label="Safety"
@@ -741,11 +743,11 @@ function TopDashboard({
           {/* High Risk */}
           <div className="mt-2 pt-2 md:mt-3 md:pt-3 border-t border-white/20">
 
-            <div className="text-[10px] md:text-xs uppercase tracking-wide text-white/80 md:text-gray-400 mb-1">
-              Hazard Accumulation
-            </div>
+          <div className="text-xs uppercase tracking-wide font-semibold text-white/80 md:text-white/85 mb-1">
+            Hazard Accumulation
+          </div>
 
-            <div className="flex justify-between text-xs md:text-sm mb-1">
+            <div className="flex justify-between text-xs md:text-sm font-medium text-white/70 mb-1">
               <span>High Risk</span>
               <span>{state.HR}</span>
             </div>
@@ -787,7 +789,7 @@ function BalancedStat({
   return (
     <div className="mb-1">
 
-      <div className="flex justify-between text-xs md:text-sm mb-1">
+      <div className="flex justify-between text-xs md:text-sm font-medium text-white/70 mb-1">
         <span>{label}</span>
         <span>{value}</span>
       </div>
