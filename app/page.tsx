@@ -176,7 +176,7 @@ export default function Home() {
         setShowLocationCard={setShowLocationCard}
       />
 
-        <div className="max-w-4xl mx-auto px-4 md:p-8">
+        <div className="max-w-4xl mx-auto px-4 md:p-8 mt-4 md:mt-8">
           <div className="bg-black/50 p-6 md:p-10 rounded-3xl shadow-2xl">
 
             <h1 className="text-2xl md:text-4xl font-bold mb-4">
