@@ -657,10 +657,10 @@ function TopDashboard({
   </div>
 
   {personaInfo?.description && (
-    <div className="text-base text-gray-200 leading-relaxed">
-      {personaInfo.description}
-    </div>
-  )}
+  <div className="hidden md:block text-base text-gray-200 leading-relaxed">
+    {personaInfo.description}
+  </div>
+)}
 
 </div>
 
@@ -686,10 +686,10 @@ function TopDashboard({
   </div>
 
   {locationInfo?.description && (
-    <div className="text-base text-gray-200 leading-relaxed">
-      {locationInfo.description}
-    </div>
-  )}
+  <div className="hidden md:block text-base text-gray-200 leading-relaxed">
+    {locationInfo.description}
+  </div>
+)}
 
 </div>
 
