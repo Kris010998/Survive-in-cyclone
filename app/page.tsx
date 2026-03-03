@@ -752,7 +752,7 @@ function TopDashboard({
 
             <div className="w-full bg-white/20 h-1.5 md:h-2 rounded-full overflow-hidden">
               <div
-                className="bg-red-600 h-3 transition-all duration-300"
+                className="bg-red-600 h-full transition-all duration-300"
                 style={{
                   width: `${(state.HR / (vars.HR.max || 1)) * 100}%`
                 }}
