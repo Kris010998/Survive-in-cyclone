@@ -431,7 +431,7 @@ return (
     <div className="max-w-4xl mx-auto p-8">
 
       {/* Narrative Text Block */}
-      <div className="mb-8 p-6 md:p-8 bg-black/50 rounded-3xl shadow-2xl text-base md:text-lg leading-relaxed">
+      <div className="mb-8 p-6 bg-black/50 rounded-3xl shadow-2xl text-lg leading-relaxed whitespace-pre-line">
         {displayText}
       </div>
 
@@ -699,7 +699,7 @@ function TopDashboard({
         <div className="bg-white/5 p-1 md:p-1 rounded-xl border border-white/10">
 
           <div className="flex justify-between mb-2 text-xs uppercase tracking-wide text-gray-400">
-          <span className="text-gray-400">Status</span>
+          <span className="text-white md:text-gray-400">Status</span>
           </div>
 
           <BalancedStat
@@ -741,11 +741,11 @@ function TopDashboard({
           {/* High Risk */}
           <div className="mt-2 pt-2 md:mt-3 md:pt-3 border-t border-white/20">
 
-            <div className="text-[10px] md:text-xs uppercase tracking-wide text-gray-400 mb-1">
+            <div className="text-[10px] md:text-xs uppercase tracking-wide text-white/80 md:text-gray-400 mb-1">
               Hazard Accumulation
             </div>
 
-            <div className="flex justify-between text-sm mb-1">
+            <div className="flex justify-between text-xs md:text-sm mb-1">
               <span>High Risk</span>
               <span>{state.HR}</span>
             </div>
