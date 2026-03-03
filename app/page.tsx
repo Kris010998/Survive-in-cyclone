@@ -695,7 +695,7 @@ function TopDashboard({
 
 </div>
 
-        <div className="bg-white/5 p-1 rounded-xl border border-white/10">
+        <div className="bg-white/5 p-1 md:p-1 rounded-xl border border-white/10">
 
           <div className="flex justify-between mb-2 text-xs uppercase tracking-wide text-gray-400">
           <span className="text-gray-400">Status</span>
@@ -738,7 +738,7 @@ function TopDashboard({
           />
 
           {/* High Risk */}
-          <div className="mt-3 pt-3 border-t border-white/20">
+          <div className="mt-2 pt-2 md:mt-3 md:pt-3 border-t border-white/20">
 
             <div className="text-xs uppercase tracking-wide text-gray-400 mb-2">
               Hazard Accumulation
@@ -784,14 +784,14 @@ function BalancedStat({
   const percent = (value - min) / range
 
   return (
-    <div className="mb-2">
+    <div className="mb-1 md:mb-2">
 
-      <div className="flex justify-between text-sm mb-1">
+      <div className="flex justify-between text-xs md:text-sm mb-1">
         <span>{label}</span>
         <span>{value}</span>
       </div>
 
-      <div className="relative w-full h-2 bg-white/10 rounded-full">
+      <div className="relative w-full h-1.5 md:h-2 bg-white/10 rounded-full">
 
         <div
           className="absolute top-0 bottom-0 w-[2px] bg-white/40"
