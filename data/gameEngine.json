@@ -51,10 +51,10 @@
     "persona_info": {
     "Standard": {
         "description":"You are an able-bodied adult managing your household independently. You have the luxury of speed and financial autonomy. Your challenge is not capability, but judgment: can you resist the trap of overconfidence?",
-        "image": "/images/personas/standard.png"
+        "image": "/images/personas/adult_F.png"
     },
     "Caregiver": {
-        "description":"With child and an elderly parent relying on you, your starting resources are stretched thin, though your social ties are stronger. Physical fatigue accumulates faster for you.",
+        "description":"With a child and an elderly parent relying on you, your starting resources are stretched thin, though your social ties are stronger. Physical fatigue accumulates faster for you.",
         "image": "/images/personas/caregiver.png"
     },
     "Elderly":{
