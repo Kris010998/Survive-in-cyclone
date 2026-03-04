@@ -1,9 +1,9 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { supabase } from "@/lib/supabase"
 import gameData from "../data/gameEngine.json"
 import { getInitialState, applyOption, GameState } from "../lib/gameEngine"
+import { supabase } from "@/lib/supabaseClient"
 
 
 export default function Home() {
