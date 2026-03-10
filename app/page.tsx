@@ -226,21 +226,6 @@ export default function Home() {
             <button
             className="mt-8 w-full p-4 bg-gray-700 hover:bg-gray-600 rounded-xl transition"
             onClick={async () => {
-
-              const sid = sessionRef.current
-            
-              if (sid && state) {
-                await supabase
-                  .from("sessions")
-                  .update({
-                    completed: true,
-                    literacy_score: state.literacyScore,
-                    outcome: state.outcome,
-                    completed_at: new Date().toISOString()
-                  })
-                  .eq("id", sid)
-              }
-            
               hasInitialized.current = false
               sessionRef.current = null
               setState(null)
@@ -553,22 +538,40 @@ return (
                 
                   const sid = sessionRef.current
                   if (!sid) return
-                
-                  const { error } = await supabase
-                    .from("decisions")
-                    .insert({
-                      session_id: sid,
-                      node: currentState.node,
-                      option_id: option.id,
-                      safety: currentState.S,
-                      resources: currentState.R,
-                      mobility: currentState.M,
-                      social_capital: currentState.SC,
-                      high_risk: currentState.HR
-                    })
-                
-                  if (error) {
-                    console.error("Decision insert failed:", error)
+
+                  // ① 写 decision 记录
+                  const { error: decisionError } = await supabase
+                  .from("decisions")
+                  .insert({
+                    session_id: sid,
+                    node: currentState.node,
+                    option_id: option.id,
+                    safety: currentState.S,
+                    resources: currentState.R,
+                    mobility: currentState.M,
+                    social_capital: currentState.SC,
+                    high_risk: currentState.HR
+                  })
+
+                  if (decisionError) {
+                    console.error("Decision insert failed:", decisionError)
+                  }
+
+                 // ② 如果到达终局，立即更新 session
+                  if (nextState.outcome) {
+                    const { error: sessionError } = await supabase
+                      .from("sessions")
+                      .update({
+                        completed: true,
+                        literacy_score: nextState.literacyScore,
+                        outcome: nextState.outcome,
+                        completed_at: new Date().toISOString()
+                      })
+                      .eq("id", sid)
+
+                    if (sessionError) {
+                      console.error("Session completion update failed:", sessionError)
+                    }
                   }
                 }}
             >
