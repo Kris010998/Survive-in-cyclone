@@ -235,7 +235,8 @@ export default function Home() {
                   .update({
                     completed: true,
                     literacy_score: state.literacyScore,
-                    outcome: state.outcome
+                    outcome: state.outcome,
+                    completed_at: new Date().toISOString()
                   })
                   .eq("id", sid)
               }
