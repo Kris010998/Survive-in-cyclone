@@ -12,6 +12,7 @@ export type LiteracyDetail = {
 
 export type GameState = {
   node: string
+  step: number
   persona: string
   location: string
 
@@ -102,6 +103,7 @@ export function getInitialState(): GameState {
 
   const state: GameState = {
     node: "DAY0_LOCATION",
+    step: 0,
 
     persona,
     location,
@@ -390,7 +392,7 @@ export function applyOption(
     } else {
       newState.node = currentNode.next
     }
-  
+
     return autoRouter(newState)
   }
 
@@ -465,6 +467,8 @@ export function applyOption(
     }
 
     newState.node = option.next
+    newState.step = state.step + 1
+
     return autoRouter(newState)
   }
 

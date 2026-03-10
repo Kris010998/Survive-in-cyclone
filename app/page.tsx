@@ -544,6 +544,7 @@ return (
                   .from("decisions")
                   .insert({
                     session_id: sid,
+                    step_number: nextState.step,
                     node: currentState.node,
                     option_id: option.id,
                     safety: currentState.S,
