@@ -180,7 +180,7 @@ function applyProbability(state: GameState, probability: any[]) {
    ROUTER ENGINE
 =========================== */
 
-function autoRouter(state: GameState): GameState {
+export function autoRouter(state: GameState): GameState {
 
     while (true) {
   

@@ -7,7 +7,7 @@
   
     "system": {
       "variables": {
-        "S": { "name": "Safety", "min": -6, "max": 6 },
+        "S": { "name": "Safety", "min": -5, "max": 5 },
         "R": { "name": "Resources", "min": -5, "max": 5 },
         "M": { "name": "Mobility", "min": -6, "max": 6 },
         "SC": { "name": "Social Capital", "min": -5, "max": 5 },

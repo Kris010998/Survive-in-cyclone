@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import gameData from "../data/gameEngine.json"
-import { getInitialState, applyOption, GameState } from "../lib/gameEngine"
+import { getInitialState, applyOption, GameState, autoRouter } from "../lib/gameEngine"
 import { supabase } from "@/lib/supabaseClient"
 
 
@@ -26,6 +26,8 @@ export default function Home() {
   const [showPersonaCard, setShowPersonaCard] = useState(false)
   
   const [showLocationCard, setShowLocationCard] = useState(false)
+
+  const [isSessionReady, setIsSessionReady] = useState(false); // 🆕 追踪数据库 ID 是否就绪
   
   // 2️⃣ useEffect
 
@@ -71,6 +73,7 @@ export default function Home() {
     }
     // 3️⃣ 保存 session id 到 ref
     sessionRef.current = data.id
+    setIsSessionReady(true)
     }
 
     initGame()
@@ -415,10 +418,15 @@ return (
 
           {/* Confirm Button */}
           <button
-            className="w-full p-4 bg-indigo-600 hover:bg-indigo-500 rounded-xl transition"
+            disabled={!isSessionReady} 
+            className={`w-full p-4 rounded-xl transition ${
+              isSessionReady 
+                ? "bg-indigo-600 hover:bg-indigo-500" 
+                : "bg-gray-600 cursor-not-allowed opacity-50"
+            }`}
             onClick={() => setIntroStep("location")}
           >
-            Confirm
+            {isSessionReady ? "Confirm" : "Loading Session..."}
           </button>
 
         </div>
@@ -533,7 +541,20 @@ return (
                   if (locked || !state) return
                 
                   const currentState = state
-                  const nextState = applyOption(currentState, option)
+                  let nextState = applyOption(currentState, option)
+
+                  if ((nextState.S ?? 0) <= -5 && nextState.node !== "OUTCOME") {
+                    console.log("检测到数值崩盘，触发引擎自动结算...");
+                    
+                    // 强制切换节点名
+                    nextState.node = "OUTCOME";
+                    
+                    // 🔥 关键：直接调用引擎的 autoRouter
+                    // 它会自动匹配 JSON 里的 outcomes 描述，并计算 literacy_scoring 里的分数
+                    nextState = autoRouter(nextState); 
+                  }
+
+                  // 1. 立即更新 UI
                   setState(nextState)
                 
                   const sid = sessionRef.current
@@ -544,7 +565,8 @@ return (
 
                   // 准备异步任务队列
                   const tasks = []; 
-
+                  
+                  // 2. 无论是否结局，都记录决策
                   // ① 写 decision 记录
                   tasks.push(
                   supabase
@@ -554,46 +576,74 @@ return (
                       step_number: nextState.step,
                       node: currentState.node,
                       option_id: option.id,
-                      safety: currentState.S,
-                      resources: currentState.R,
-                      mobility: currentState.M,
-                      social_capital: currentState.SC,
+                      safety: Math.round(currentState.S || 0),
+                      resources: Math.round(currentState.R || 0),
+                      mobility: Math.round(currentState.M || 0),
+                      social_capital: Math.round(currentState.SC || 0),
                       high_risk: currentState.HR
                     })
                   );
 
-                 // ② 如果到达终局，同时更新 Session 状态
-                  if (nextState.outcome) {
-                    tasks.push(
-                      supabase
-                        .from("sessions")
-                        .update({
-                          completed: true,
-                          literacy_score: nextState.literacyScore,
-                          outcome: nextState.outcome,
-                          completed_at: new Date().toISOString()
-                        })
-                        .eq("id", sid)
-                      );
-                    }
+                  // 打印一下 nextState 到底长啥样，看看分数到底躲在哪个变量里
+                  console.log("完整的 nextState 对象:", nextState);
+
+                  // 1. 在推入任务前，先定义“死亡判定”和“得分保底”
+                  const isDead = (nextState.S ?? 0) <= -5; // 根据你 JSON 的 S <= -5 逻辑
+                  const isGameOver = !!nextState.outcome || isDead || nextState.node?.toUpperCase().includes("OUTCOME");
+
+                  // 2. 尝试获取分数（如果 nextState 里没有，看看能不能从 state 里拿，或者算一下）
+                  const currentScore = nextState.literacyScore ?? 0;
+
+                  // 同步最新数据
+                  // 3. 执行同步
+                  tasks.push(
+                    supabase
+                      .from("sessions")
+                      .update({
+                        // 只要满足死亡条件或流程结束，就标记为 true
+                        completed: isGameOver, 
+                        
+                        // 强制转换分数，确保数据库 int4 能接收
+                        literacy_score: Math.floor(Number(currentScore) || 0),
+                        
+                        // 如果 outcome 是空的但人已经死了，手动给个字符串
+                        outcome: nextState.outcome 
+                          ? String(nextState.outcome) 
+                          : (isDead ? "Fatal Outcome" : "In Progress"),
+                        
+                        // 只要游戏结束，就记录时间，否则保持 null
+                        completed_at: isGameOver ? new Date().toISOString() : null
+                      })
+                      .eq("id", sid)
+                      .select()
+                  );
+
+                  // 【调试日志】能帮你看到点击瞬间的数值
+                  console.log(`[实时同步] 节点: ${nextState.node}, S: ${nextState.S}, 结局判定: ${isGameOver}`);
+
+                  // 【调试日志】
+                  console.log("已推入同步任务：", {
+                    node: nextState.node,
+                    score: nextState.literacyScore,
+                    isEnding: !!nextState.outcome
+                  });
 
                   try {
                       // 并行执行所有数据库操作
                       const results = await Promise.all(tasks);
                       
-                      // 简单的错误检查逻辑
+                      // 强制打印结果，看看 update 到底返回了什么
                       results.forEach((res, index) => {
                         if (res.error) {
-                          console.error(`Task ${index} failed:`, res.error.message);
+                          console.error(`任务 ${index} 失败:`, res.error.message);
+                          // 如果这里打印了 "Permission denied"，说明 Policy 还是没生效
+                        } else {
+                          console.log(`任务 ${index} 成功，受影响行数:`, res.data?.length);
                         }
-                    });
-                  // 如果有终局，建议在所有数据保存完成后再进行 UI 切换或弹窗
-                  if (nextState.outcome) {
-                    console.log("Game over data synchronized.");
-                  }
-                }catch (err) {
-                  console.error("Critical error during database sync:", err);
-                }
+                      });
+                    }catch (err) {
+                      console.error("Critical error during database sync:", err);
+                    }
               }} // <--- 这里是 onClick 的闭合
             >
               {option.label}
@@ -880,7 +930,8 @@ function BalancedStat({
 
   const range = max - min || 1
   const zeroPosition = Math.abs(min) / range
-  const percent = (value - min) / range
+  const rawPercent = (value - min) / range
+  const percent = Math.max(0, Math.min(1, rawPercent))
 
   return (
     <div className="mb-1">
