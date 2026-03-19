@@ -537,49 +537,69 @@ return (
                   setState(nextState)
                 
                   const sid = sessionRef.current
-                  if (!sid) return
+                  if (!sid) {
+                    console.error("No active session ID found.");
+                    return;
+                  }
+
+                  // 准备异步任务队列
+                  const tasks = []; 
 
                   // ① 写 decision 记录
-                  const { error: decisionError } = await supabase
-                  .from("decisions")
-                  .insert({
-                    session_id: sid,
-                    step_number: nextState.step,
-                    node: currentState.node,
-                    option_id: option.id,
-                    safety: currentState.S,
-                    resources: currentState.R,
-                    mobility: currentState.M,
-                    social_capital: currentState.SC,
-                    high_risk: currentState.HR
-                  })
+                  tasks.push(
+                  supabase
+                    .from("decisions")
+                    .insert({
+                      session_id: sid,
+                      step_number: nextState.step,
+                      node: currentState.node,
+                      option_id: option.id,
+                      safety: currentState.S,
+                      resources: currentState.R,
+                      mobility: currentState.M,
+                      social_capital: currentState.SC,
+                      high_risk: currentState.HR
+                    })
+                  );
 
-                  if (decisionError) {
-                    console.error("Decision insert failed:", decisionError)
-                  }
-
-                 // ② 如果到达终局，立即更新 session
+                 // ② 如果到达终局，同时更新 Session 状态
                   if (nextState.outcome) {
-                    const { error: sessionError } = await supabase
-                      .from("sessions")
-                      .update({
-                        completed: true,
-                        literacy_score: nextState.literacyScore,
-                        outcome: nextState.outcome,
-                        completed_at: new Date().toISOString()
-                      })
-                      .eq("id", sid)
-
-                    if (sessionError) {
-                      console.error("Session completion update failed:", sessionError)
+                    tasks.push(
+                      supabase
+                        .from("sessions")
+                        .update({
+                          completed: true,
+                          literacy_score: nextState.literacyScore,
+                          outcome: nextState.outcome,
+                          completed_at: new Date().toISOString()
+                        })
+                        .eq("id", sid)
+                      );
                     }
+
+                  try {
+                      // 并行执行所有数据库操作
+                      const results = await Promise.all(tasks);
+                      
+                      // 简单的错误检查逻辑
+                      results.forEach((res, index) => {
+                        if (res.error) {
+                          console.error(`Task ${index} failed:`, res.error.message);
+                        }
+                    });
+                  // 如果有终局，建议在所有数据保存完成后再进行 UI 切换或弹窗
+                  if (nextState.outcome) {
+                    console.log("Game over data synchronized.");
                   }
-                }}
+                }catch (err) {
+                  console.error("Critical error during database sync:", err);
+                }
+              }} // <--- 这里是 onClick 的闭合
             >
               {option.label}
             </button>
-          )
-        })
+          ); // <--- 这里是 map return 的闭合
+        }) // <--- 这里是 map 的闭合
       }
 
     </div>
