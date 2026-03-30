@@ -101,9 +101,9 @@ export default function Home() {
           </h1>
   
           <p className="text-lg text-gray-200 max-w-xl mb-10 leading-relaxed">
-          A Scenario-Based Simulation for Disaster Literacy in Asia-Pacific.
-          Experience a 3-Day Crisis in Sri Lanka.
-          Your decisions influence risk, resources, and survival.
+          A Scenario-Based Simulation for Disaster Literacy.
+          Experience a 3-Day Crisis as it unfolds.
+          Your decisions shape what happens next.
           </p>
   
           <button
