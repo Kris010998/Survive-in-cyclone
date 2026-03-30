@@ -1,8 +1,8 @@
 {
     "meta": {
-      "title": "Survive or Not: Amali's Wake",
-      "subtitle": "A 3-Day Disaster Risk Simulation in Sri Lanka",
-      "version": "1.0"
+      "title": "Decision under Disaster",
+      "subtitle": "A 3-Day Disaster Risk Simulation under cyclone",
+      "version": "2.0"
     },
   
     "system": {
@@ -65,16 +65,16 @@
 
     "location_info": {
     "Coastal": {
-        "description":"You live near the coast in Galle. Fishing and tourism shape your community.",
-        "image": "/images/locations/coastal.jpg"
+        "description":"You live in a coastal community. Fishing and tourism are the main sources of livelihood.",
+        "image": "/images/locations/coastal_v2.png"
     },
     "River": {
-        "description":"You live in the dense neighborhoods near the Kelani River. Floods happen here almost every year.",
-        "image": "/images/locations/river.jpg"
+        "description":"You live in a densely populated waterside community. Floods happen here almost every year.",
+        "image": "/images/locations/river_v2.png"
     },
     "Hill": {
-        "description":"You live in the Central Highlands, near Kandy. The slopes are covered in tea plantations.",
-        "image": "/images/locations/hill.jpg"
+        "description":"You live in a highland region. The surrounding slopes are covered in plantations.",
+        "image": "/images/locations/hill_v2.png"
     }
     },
 
@@ -91,7 +91,7 @@
         },
       "COASTAL_1": {
         "type": "narrative",
-        "text": "You live near the coast in Galle. Fishing and tourism shape your community.",
+        "text": "You live in a coastal community. Fishing and tourism are the main sources of livelihood.",
         "next": "COASTAL_2"
         },
         "COASTAL_2": {
@@ -102,7 +102,7 @@
 
       "RIVER_1": {
         "type": "narrative",
-        "text": "You live in the dense neighborhoods near the Kelani River. Floods happen here almost every year.",
+        "text": "You live in a densely populated waterside community. Floods happen here almost every year.",
         "next": "RIVER_2"
         },
         "RIVER_2": {
@@ -113,7 +113,7 @@
 
       "HILL_1": {
         "type": "narrative",
-        "text": "You live in the Central Highlands, near Kandy. The slopes are covered in tea plantations.",
+        "text": "You live in a highland region. The surrounding slopes are covered in plantations.",
         "next": "HILL_2"
         },
         "HILL_2": {
@@ -124,32 +124,32 @@
   
       "DAY1_START_1": {
         "type": "narrative",
-        "text": "November 2025. The humid air over Sri Lanka has become unusually still. Across Colombo and Galle, conversations have grown quiet.",
+        "text": "November 2025. The air has become unusually still. Conversations in your community grow quieter as people begin to notice the change.",
         "next": "DAY1_START_2"
         },
 
         "DAY1_START_2": {
         "type": "narrative",
-        "text": "Phones begin vibrating across the country. Emergency alerts repeat the same name: Amali.",
+        "text": "Phones begin vibrating across the area. Emergency alerts repeat the same name: Amali.",
         "next": "DAY1_START_3"
         },
 
         "DAY1_START_3": {
         "type": "narrative",
-        "text": "A powerful cyclone is strengthening in the Bay of Bengal. Your window to prepare is shrinking.",
+        "text": "A powerful storm system is strengthening offshore. Your window to prepare is shrinking.",
         "next": "DAY1_START_4"
         },
 
         "DAY1_START_4": {
         "type": "narrative",
-        "text": "Today is the Day one.",
+        "text": "Day 1 begins. Time is running.",
         "next": "DAY1_WARNING"
         },
 
   
       "DAY1_WARNING": {
         "type": "decision",
-        "text": "The sirens begin before dusk — a long, mechanical howl that does not stop. Your phone vibrates: 'DMC RED ALERT — Severe Cyclone Amali Expected Within 12 Hours.' The local market is still busy; some shopkeepers are staying open to make a final profit. You have a narrow window before the heavy rain starts.",
+        "text": "The sirens begin before dusk — a long, mechanical howl that does not stop. Your phone vibrates: 'Emergency alert: A severe storm is expected within 12 hours.' The local market is still busy; some shopkeepers are staying open to make a final profit. You have a narrow window before the heavy rain starts.",
         "options": [
             {
             "id": "A",
@@ -199,19 +199,19 @@
 
         "FEEDBACK_DANGER_WARNING": {
         "type": "narrative",
-        "text": "⚠️ SAFETY GAP DETECTED\n\nCurrent Safety (S): {S}\n\nBy delaying your response, your safety margin has dropped. In disaster management, 'waiting to see' often creates a cascade of risks that are harder to manage once the storm makes landfall.",
+        "text": "⚠️ SAFETY GAP DETECTED\n\nCurrent Safety (S): {S}\n\nBy delaying your response, your safety margin has dropped. The situation is becoming harder to control.",
         "next": "ROUTER_DAY1_WARNING"
         },
 
         "FEEDBACK_RESOURCES_WARNING": {
         "type": "narrative",
-        "text": "📉 RESOURCE DRAIN\n\nCurrent Resources (R): {R}\n\nYour rapid response has secured supplies, but at a significant cost. You are safer, but your economic resilience is now brittle. You must manage your remaining assets carefully.",
+        "text": "📉 RESOURCE DRAIN\n\nCurrent Resources (R): {R}\n\nYour rapid response has secured supplies, but at a significant cost. You are safer, but you have very little left to rely on.",
         "next": "ROUTER_DAY1_WARNING"
         },
 
         "FEEDBACK_SOCIAL_WARNING": {
         "type": "narrative",
-        "text": "🤝 SOCIAL CAPITAL BOOST\n\nSocial Capital (SC): {SC}\n\nVerification via community channels has strengthened your social ties. While you haven't reinforced your home yet, you have secured a network of information that may be vital for evacuation.",
+        "text": "🤝 SOCIAL CAPITAL BOOST\n\nSocial Capital (SC): {SC}\n\nYou now have better information and stronger connections with people around you.",
         "next": "ROUTER_DAY1_WARNING"
         },
 
@@ -269,31 +269,31 @@
 
         "FEEDBACK_DANGER": {
         "type": "narrative",
-        "text": "⚠️ CRITICAL VULNERABILITY\n\nSafety Margin: {S}\n\nYour safety margin is negative. By prioritizing secondary tasks over basic protection, you have left your household exposed. The upcoming impact will be extremely dangerous.",
+        "text": "⚠️ CRITICAL VULNERABILITY\n\nSafety (S): {S}\n\nYour safety margin is low. You have not secured basic protection. The situation is becoming more dangerous as the storm approaches.",
         "next": "ROUTER_DAY1_PREP"
         },
 
         "FEEDBACK_RESOURCES": {
         "type": "narrative",
-        "text": "📉 RESOURCE DEPLETION\n\nResources (R): {R}\n\nResource depletion detected. You have spent too much capital or supplies too early. You may lack the means to handle secondary crises, such as acquiring clean water or emergency medical aid.",
+        "text": "📉 RESOURCE DEPLETION\n\nResources (R): {R}\n\nYou have spent heavily to prepare. You are safer now, but your remaining resources are limited. This may make it harder to handle problems later.",
         "next": "ROUTER_DAY1_PREP"
         },
 
         "FEEDBACK_EXHAUSTION": {
         "type": "narrative",
-        "text": "😫 PHYSICAL STRAIN\n\nMobility (M): {M}\n\nPhysical exhaustion is high. Your body is trembling from the prep work. Your ability to evacuate quickly or react to sudden structural failures in the next phase is now compromised.",
+        "text": "😫 PHYSICAL STRAIN\n\nMobility (M): {M}\n\nYou are exhausted from the preparation. Your body is shaking. It may be harder to move quickly or react if the situation worsens.",
         "next": "ROUTER_DAY1_PREP"
         },
 
         "FEEDBACK_RISK": {
         "type": "narrative",
-        "text": "🚩 HIGH-RISK PROFILE\n\nHigh Risk Count: {HR}\n\nHigh-risk behaviors recorded. You are gambling with survival by ignoring established disaster protocols. In a cyclone, luck is not a sustainable strategy.",
+        "text": "🚩 HIGH-RISK BEHAVIOR\n\nHigh Risk Count: {HR}\n\nYou have taken actions that increase your risk. The situation is becoming harder to control, and your margin for error is shrinking.",
         "next": "ROUTER_DAY1_PREP"
         },
         
       "DAY2_START_1": {
         "type": "narrative",
-        "text": "Day 2. Just before dawn. The wind is no longer in gusts. It becomes a continuous roar.",
+        "text": "Day 2. Just before dawn. The wind no longer comes in bursts. It is constant now, a steady roar filling the air.",
         "next": "DAY2_START_2"
         },
 
@@ -435,25 +435,25 @@
 
         "FEEDBACK_FATAL_COASTAL": {
         "type": "narrative",
-        "text": "⚠️ CATASTROPHIC IMPACT\n\nFinal Safety Score (S): {S}\n\nThe ocean is an unforgiving force. The structural failure or the surge's velocity has overwhelmed your defenses. In this simulation, your journey ends here—a stark reminder that against a storm surge, time and physics do not negotiate.",
+        "text": "⚠️ CATASTROPHIC IMPACT\n\nFinal Safety (S): {S}\n\nThe surge overwhelms your home. The force of the water leaves no time to react. Everything happens too quickly.",
         "next": "OUTCOME"
         },
 
         "FEEDBACK_INJURY_COASTAL": {
         "type": "narrative",
-        "text": "🚑 TRAUMA ALERT\n\nCurrent Safety (S): {S}\n\nYou are alive, but the impact was brutal. Whether from debris-filled water or a fall during evacuation, you have sustained significant injuries. Your capacity to manage the next 24 hours is severely diminished.",
+        "text": "🚑 TRAUMA ALERT\n\nCurrent Safety (S): {S}\n\nYou are alive, but the impact was severe. You are injured, and even simple movements feel difficult. The next phase will be harder.",
         "next": "ROUTER_COASTAL_MULTI"
         },
 
         "FEEDBACK_EXHAUSTION_COASTAL": {
         "type": "narrative",
-        "text": "🛑 PHYSICAL COLLAPSE\n\nCurrent Mobility (M): {M}\n\nYou reached safety, but your reserves are gone. For an elderly survivor or a caregiver, this level of exhaustion is a hazard in itself. You are now immobile, making you entirely dependent on external rescue.",
+        "text": "🛑 PHYSICAL COLLAPSE\n\nCurrent Mobility (M): {M}\n\nYou reached safety, but your strength is gone. You can barely move. Every action now feels heavy and slow.",
         "next": "ROUTER_COASTAL_MULTI"
         },
 
         "FEEDBACK_RISK_COASTAL": {
         "type": "narrative",
-        "text": "🚩 CRITICAL ERRORS\n\nHigh Risk Count: {HR}\n\nIgnoring evacuation orders in a coastal zone is a statistically fatal choice. You have survived the initial wave by pure chance, but your 'High Risk' profile will heavily penalize your final resilience score.",
+        "text": "🚩 HIGH-RISK SITUATION\n\nHigh Risk Count: {HR}\n\nYou stayed in a dangerous zone for too long. The situation became harder to control, and your margin for error is now very small.",
         "next": "ROUTER_COASTAL_MULTI"
         }, 
 
@@ -576,25 +576,25 @@
 
         "FEEDBACK_FATAL_RIVER": {
         "type": "narrative",
-        "text": "⚠️ CRITICAL FAILURE: SUBMERGED\n\nFinal Safety Score (S): {S}\n\nYou underestimated the deceptive power of moving water. Whether trapped in a stalled vehicle or overwhelmed by the rising current inside your home, the environment has become unsurvivable. In urban flooding, the window between 'trouble' and 'tragedy' is measured in seconds.",
+        "text": "⚠️ CRITICAL FAILURE: SUBMERGED\n\nFinal Safety (S): {S}\n\nThe water rises too fast. The current pulls everything off balance. You lose control, and there is no time to recover.",
         "next": "OUTCOME"
         },
 
         "FEEDBACK_ELECTROCUTION_RISK": {
         "type": "narrative",
-        "text": "⚡ HAZARD ALERT: ELECTRICAL CONDUCTIVITY\n\nHigh Risk Count: {HR}\n\nBy delaying the power cut or wading through water near active outlets, you have exposed yourself to lethal electrocution risks. You survived this moment, but you are now navigating a 'Hot Zone' where one wrong step in the dark could be your last.",
+        "text": "⚡ ELECTRICAL HAZARD\n\nHigh Risk Count: {HR}\n\nThe water is now dangerous. Sparks flicker near outlets and wires. Every step feels uncertain, and one mistake could be fatal.",
         "next": "ROUTER_RIVER_MULTI"
         },
 
         "FEEDBACK_EXHAUSTION_RIVER": {
         "type": "narrative",
-        "text": "🥶 HYPOTHERMIA & EXHAUSTION\n\nCurrent Mobility (M): {M}\n\nFloodwater is colder than it looks, and moving through it drains energy 3x faster than normal. Your mobility has collapsed. For a vulnerable survivor, this physical depletion often leads to secondary health crises long before the water recedes.",
+        "text": "🥶 EXHAUSTION\n\nCurrent Mobility (M): {M}\n\nThe cold water drains your strength. Your body feels heavy, and each movement takes more effort than before. You are slowing down.",
         "next": "ROUTER_RIVER_MULTI"
         },
 
         "FEEDBACK_CONTAMINATION_ALERT": {
         "type": "narrative",
-        "text": "☣️ BIOHAZARD EXPOSURE\n\nCurrent Safety (S): {S}\n\nYou have been forced to wade through contaminated water. In river floods, this water carries sewage, chemicals, and pathogens. Your safety margin is dropping as the risk of water-borne illness and infection becomes a ticking clock.",
+        "text": "☣️ CONTAMINATION RISK\n\nCurrent Safety (S): {S}\n\nThe water is dirty and unsafe. You feel it on your skin and in your throat. Staying in it for too long will make things worse.",
         "next": "ROUTER_RIVER_MULTI"
         },
 
@@ -705,25 +705,25 @@
 
         "FEEDBACK_FATAL_HILL": {
         "type": "narrative",
-        "text": "### ⚠️ BURIED: MASS WASTING EVENT\n\nFinal Safety Score (S): {S}\n\nA landslide is not a flood; it is a wall of debris moving at highway speeds. Whether trapped inside a collapsing structure or caught in the direct path of the flow, survival was physically impossible. This outcome is a stark illustration of the catastrophic nature of slope failure.",
+        "text": "⚠️ BURIED\n\nFinal Safety (S): {S}\n\nThe ground gives way beneath you. Mud and debris rush down the slope. Everything happens at once, and there is no time to escape.",
         "next": "OUTCOME"
         },
 
         "FEEDBACK_DIRECTION_ERROR": {
         "type": "narrative",
-        "text": "🚩 TACTICAL ERROR: RUNNING DOWNHILL\n\nHigh Risk Count: {HR}\n\nYou attempted to outrun the slide by moving downhill—the path of maximum velocity for debris. You survived by a mathematical miracle, but your risk profile is now critical. In mountain hazards, lateral movement (sideways) is the only scientific escape.",
+        "text": "🚩 WRONG MOVE\n\nHigh Risk Count: {HR}\n\nYou run downhill. The ground becomes unstable beneath your feet. The slope moves faster than you can react.",
         "next": "ROUTER_HILL_MULTI"
         },
 
         "FEEDBACK_MOBILITY_CRISIS": {
         "type": "narrative",
-        "text": "😫 TOTAL PHYSICAL DEPLETION\n\nCurrent Mobility (M): {M}\n\nEscaping across saturated, shifting soil is a massive physical undertaking. For a Caregiver or Elderly survivor, this exertion has pushed your cardiovascular and musculoskeletal systems to the breaking point. You are safe from the slide, but you are now physically incapacitated.",
+        "text": "😫 EXHAUSTION\n\nCurrent Mobility (M): {M}\n\nThe mud is heavy and unstable. Your legs struggle to move. Each step takes more effort, and you begin to lose balance.",
         "next": "ROUTER_HILL_MULTI"
         },
 
         "FEEDBACK_STRUCTURAL_FAILURE": {
         "type": "narrative",
-        "text": "🏚️ SECONDARY IMPACT ALERT\n\nCurrent Safety (S): {S}\n\nThe house has held, but the foundation is compromised. You are breathing dust from crumbling mortar and the structure remains unstable. While not fatal yet, your refusal to evacuate laterally has left you in a high-vulnerability state for the next tremor or rain band.",
+        "text": "🏚️ UNSTABLE STRUCTURE\n\nCurrent Safety (S): {S}\n\nThe house is still standing, but the ground beneath it is shifting. Cracks spread. Dust fills the air. The structure no longer feels safe.",
         "next": "ROUTER_HILL_MULTI"
         },
 
@@ -856,25 +856,25 @@
 
         "FEEDBACK_POST_STORM_HAZARD": {
         "type": "narrative",
-        "text": "🚑 SECONDARY TRAUMA ALERT\n\nCurrent Safety (S): {S}\n\nYou left the safety of the shelter prematurely. The landscape outside is a 'Hot Zone' of downed power lines, unstable debris, and contaminated water. Your safety margin has suffered a critical hit—survival is no longer guaranteed even though the winds have died down.",
+        "text": "🚑 SECONDARY DANGER\n\nCurrent Safety (S): {S}\n\nYou leave the shelter. Outside, the ground is uneven and filled with debris. Loose wires hang low, and the water is still dirty. The danger has not passed.",
         "next": "ROUTER_SHELTER"
         },
 
         "FEEDBACK_SOCIAL_FRICTION": {
         "type": "narrative",
-        "text": "📉 SOCIAL CAPITAL DEPLETION\n\nSocial Capital (SC): {SC}\n\nBy prioritizing personal comfort or hoarding resources within the shelter, you have alienated your fellow survivors. In the long-term recovery phase, 'Social Capital' is the only currency that matters. You are now perceived as an opportunist, not a neighbor.",
+        "text": "📉 SOCIAL FRICTION\n\nSocial Capital (SC): {SC}\n\nPeople around you begin to notice your actions. The atmosphere becomes tense. Others are less willing to help or share information with you.",
         "next": "ROUTER_SHELTER"
         },
 
         "FEEDBACK_CUMULATIVE_FATIGUE": {
         "type": "narrative",
-        "text": "😫 SYSTEMIC EXHAUSTION\n\nCurrent Mobility (M): {M}\n\nThe stress of the shelter environment, combined with previous physical exertion, has pushed your body into systemic fatigue. For a Caregiver or Elderly survivor, this state makes you highly vulnerable to post-disaster illness. Your recovery will be slow.",
+        "text": "😫 EXHAUSTION\n\nCurrent Mobility (M): {M}\n\nYou are drained. The heat, the noise, and the stress make it hard to rest. Your body feels heavy, and even small movements take effort.",
         "next": "ROUTER_SHELTER"
         },
 
         "FEEDBACK_TRUST_BUILDING": {
         "type": "narrative",
-        "text": "🤝 COMMUNITY COHESION\n\nSocial Capital (SC): {SC}\n\nBy respecting shelter discipline and supporting the coordinator, you have earned 'Resilience Equity.' Your neighbors now view you as a reliable anchor. This trust will be your strongest shield during the coming weeks of reconstruction.",
+        "text": "🤝 TRUST\n\nSocial Capital (SC): {SC}\n\nPeople begin to trust you. They share information and include you in decisions. You are no longer alone in this situation.",
         "next": "ROUTER_SHELTER"
         }, 
 
@@ -988,25 +988,25 @@
 
         "FEEDBACK_FATAL_ILLNESS": {
         "type": "narrative",
-        "text": "⚠️ CRITICAL HEALTH FAILURE\n\nFinal Safety Score (S): {S}\n\nThe 'Invisible Killer' has struck. By consuming contaminated water, you have contracted a rapid-onset waterborne disease. In a post-disaster environment with no functional clinics, dehydration from illness is swifter than dehydration from thirst. Your journey ends here.",
+        "text": "⚠️ CRITICAL CONDITION\n\nFinal Safety (S): {S}\n\nYour body begins to shut down. The water has made you sick. You feel weak, dizzy, and unable to stand. There is no help nearby.",
         "next": "OUTCOME"
         },
 
         "FEEDBACK_PATHOGEN_EXPOSURE": {
         "type": "narrative",
-        "text": "☣️ EPIDEMIOLOGICAL RISK\n\nHigh Risk Count: {HR}\n\nYou have ingested untreated rainwater. While you don't feel the effects yet, you have exposed your internal systems to runoff bacteria and sediment. Your safety margin has collapsed. In disaster medicine, this is known as the 'Secondary Crisis'—surviving the wind only to fall to the water.",
+        "text": "☣️ CONTAMINATION\n\nHigh Risk Count: {HR}\n\nYou drink untreated water. It tastes wrong. Your stomach tightens. Something is not right, but you have no choice.",
         "next": "ROUTER_WATER_MULTI"
         },
 
         "FEEDBACK_RESOURCE_BANKRUPTCY": {
         "type": "narrative",
-        "text": "📉 RESOURCE BANKRUPTCY\n\nCurrent Resources (R): {R}\n\nYour survival kit and rations are officially exhausted. For a Caregiver, this means you are now entirely dependent on external aid for the next meal. You have traded your long-term economic resilience for immediate biological safety.",
+        "text": "📉 LOW SUPPLIES\n\nCurrent Resources (R): {R}\n\nYou have used up most of what you had. There is very little left. You are now relying on what others can provide.",
         "next": "ROUTER_WATER_MULTI"
         },
 
         "FEEDBACK_PHYSICAL_LIMIT": {
         "type": "narrative",
-        "text": "🛑 PHYSIOLOGICAL REDLINE\n\nCurrent Mobility (M): {M}\n\nBetween the heat and the manual labor of boiling water, your body has entered a state of heat exhaustion. Your mobility is at an absolute minimum. You are safe from thirst, but you are physically incapable of participating in any upcoming community recovery efforts.",
+        "text": "🛑 EXHAUSTION\n\nCurrent Mobility (M): {M}\n\nThe heat and effort drain your strength. Your body feels heavy. Even standing takes effort. You cannot move easily anymore.",
         "next": "ROUTER_WATER_MULTI"
         },
 
@@ -1095,49 +1095,49 @@
     "priority": 1,
     "condition": "S <= -5",
     "result": "Fatal Outcome",
-    "description": "Your journey ends here. Whether it was the overwhelming force of the surge, an ill-fated escape attempt, or the invisible toll of disease, the cumulative risks exceeded your capacity to endure. In disaster management, one fatal leap of faith is often one too many."
+    "description": "Your journey ends here. The storm, the water, or the illness becomes too much. Everything happens faster than you can respond."
   },
   {
     "priority": 2,
     "condition": "S < -2",
     "result": "Severely Strained Survival",
-    "description": "You are alive, but at a terrible price. Physical trauma and secondary infections have left you in critical condition. Your recovery will take months, and the lack of preparation has made you entirely dependent on a strained medical system."
+    "description": "You survive, but you are badly injured and weakened. Recovery will be long and difficult, and you will need help to get through the coming days."
   },
   {
     "priority": 3,
     "condition": "M <= -4 && S >= 1",
     "result": "The Exhausted Hero",
-    "description": "High safety achieved at the cost of physical burnout. You saved the yourself/family but sustained long-term injury."
+    "description": "You made it through, but your body is pushed to its limit. Every movement is painful, and your strength is nearly gone."
   },
   {
     "priority": 4,
     "condition": "S >= 2 && SC >= 3 && flags.includes('COMMUNITY_ACTION')",
     "result": "Community Anchor",
-    "description": "You are the gold standard of disaster response. By balancing personal safety with collective action, you not only saved your household but ensured the village's recovery path is clear. You are a leader in the eyes of the DMC and your neighbors."
+    "description": "You stayed safe while helping others. People look to you and trust you. You are part of a group that is starting to recover together."
   },
   {
     "priority": 5,
     "condition": "S >= 2 && R <= -3",
     "result": "Resource-Depleted Survivor",
-    "description": "You survived through aggressive preparation, but you are now financially ruined. You spent your last rupee and sold your future for today's safety. You are alive, but you have no seed money to restart your life or business."
+    "description": "You survived by using everything you had. Your resources are nearly gone, and rebuilding will be difficult."
   },
   {
     "priority": 6,
     "condition": "S >= 2 && SC <= -1",
     "result": "Isolated Resilient Survivor",
-    "description": "You protected yourself with clinical efficiency, but you did so by turning your back on everyone else. In the tight-knit social fabric of Sri Lanka, you are now an outcast. You have walls and food, but no one will help you when the next monsoon comes."
+    "description": "You stayed safe, but you kept your distance from others. Now, you have what you need, but few people around you are willing to help."
   },
   {
     "priority": 7,
     "condition": "S >= 1",
     "result": "Resilient Survivor",
-    "description": "You navigated the risks with a clear head. By prioritizing clean water and basic safety, you avoided the secondary 'quiet' killers of the disaster."
+    "description": "You managed the risks and stayed safe. You avoided the most dangerous situations and kept yourself stable."
   },
   {
     "priority": 8,
     "condition": "S < 1",
     "result": "Barely Endured",
-    "description": "You survived the cyclone, but only just. Luck played a larger role in your survival than strategy. You are traumatized, slightly injured, and facing a very difficult reconstruction period."
+    "description": "You survived, but only just. You are tired, shaken, and facing a difficult recovery."
   }
 ],
   
@@ -1159,49 +1159,49 @@
       "dimension": "Warning Response",
       "condition": "flags.includes('EARLY_ACTION') || flags.includes('SOCIAL_VERIFY')",
       "score": 1,
-      "explain_success": "You responded immediately to an official early warning. According to the UN Sendai framework for disaster risk reduction, understanding risks and taking proactive measures are key to reducing disaster losses."
+      "explain_success": "You responded quickly to the early warning."
     },
     {
       "id": "preparedness",
       "dimension": "Preparedness",
       "if": "flags.includes('HAS_KIT')",
       "score": 1,
-      "explain_success": "You prepared essential emergency supplies in advance."
+      "explain_success": "You prepared essential supplies in advance."
     },
     {
       "id": "hazard_recognition",
       "dimension": "Hazard Recognition",
       "if_any_flag": ["EVACUATED", "VERTICAL_EVAC"],
       "score": 1,
-      "explain_success": "You recognized direct exposure to hazard and moved away from the most dangerous area."
+      "explain_success": "You recognized the danger and moved away from it."
     },
     {
         "id": "directional_judgment",
         "dimension": "Directional Judgment",
         "condition": "location === 'Hill' && flags.includes('CORRECT_DIRECTION')",
         "score": 1,
-        "explain_success": "You moved laterally away from the landslide slope."
+        "explain_success": "You chose a safer path and moved away from the unstable slope."
       },
     {
       "id": "shelter_behavior",
       "dimension": "Safe Evacuation Behavior",
       "if": "flags.includes('SHELTER_DISCIPLINE')",
       "score": 1,
-      "explain_success": "You followed official shelter guidance and avoided premature return."
+      "explain_success": "You stayed in the shelter and avoided unnecessary risks."
     },
     {
         "id": "risk_avoidance",
         "dimension": "Risk Avoidance",
         "condition": "HR == 0 && outcome != 'Fatal Outcome'",
         "score": 1,
-        "explain_success": "You limited high-risk behavior during the disaster."
+        "explain_success": "You avoided high-risk actions during the disaster."
       },
     {
       "id": "community_resilience",
-      "dimension": "Community Resilience",
+      "dimension": "Community Support",
       "if": "flags.includes('COMMUNITY_ACTION')",
       "score": 1,
-      "explain_success": "You supported collective recovery efforts."
+      "explain_success": "You supported others during the recovery."
     }
   ]
 }

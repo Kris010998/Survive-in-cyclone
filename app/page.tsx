@@ -86,7 +86,7 @@ export default function Home() {
   
         {/* Background Image */}
         <img
-          src="/images/start-bg.jpg"
+          src="/images/front_page.png"
           className="absolute inset-0 w-full h-full object-cover object-top md:object-center"
         />
   
@@ -299,7 +299,7 @@ export default function Home() {
     // ===== 精确节点（最高优先级） =====
   
     if (node === "DAY1_START_1")
-    return "/images/narratives/day1.jpg"
+    return "/images/narratives/day1_v2.png"
 
     if (node === "DAY1_WARNING")
       return "/images/narratives/day1_warning.jpg"
@@ -320,7 +320,7 @@ export default function Home() {
       return "/images/events/hill_impact.jpg"
 
     if (node === "DAY3_WATER")
-      return "/images/events/water.jpg"
+      return "/images/events/water_v2.png"
 
     if (node === "DAY3_COMMUNITY")
       return "/images/events/community.jpg"
@@ -333,14 +333,14 @@ export default function Home() {
       node.startsWith("RIVER_") ||
       node.startsWith("HILL_")
     ) {
-      return `/images/locations/${state.location?.toLowerCase()}.jpg`
+      return `/images/locations/${state.location?.toLowerCase()}_v2.png`
     }
   
   
     // ===== DAY1 阶段 =====
   
     if (node.startsWith("DAY1"))
-      return "/images/narratives/day1.jpg"
+      return "/images/narratives/day1_v2.png"
   
   
     // ===== DAY2 阶段 =====
