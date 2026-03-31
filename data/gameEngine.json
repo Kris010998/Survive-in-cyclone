@@ -50,14 +50,17 @@
   
     "persona_info": {
     "Standard": {
+        "name": "Female Adult",
         "description":"You are an able-bodied adult managing your household independently. You have the luxury of speed and financial autonomy. Your challenge is not capability, but judgment: can you resist the trap of overconfidence?",
         "image": "/images/personas/adult_F.png"
     },
     "Caregiver": {
+        "name": "Male Family Caregiver",
         "description":"With a child and an elderly parent relying on you, your starting resources are stretched thin, though your social ties are stronger. Physical fatigue accumulates faster for you.",
         "image": "/images/personas/caregiver.png"
     },
     "Elderly":{
+        "name": "Male Elderly",
         "description": "You live alone with a body that no longer matches your resolve. Your wisdom is deep, but your window for physical response is narrow. For you, survival isn't about muscle; it is about anticipation and social ties.",
         "image": "/images/personas/elderly.png"
     }

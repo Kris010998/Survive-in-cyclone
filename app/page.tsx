@@ -143,6 +143,7 @@ export default function Home() {
   isLocationBranch
 
   type PersonaInfo = {
+    name?: string
     image: string
     description: string
   }
@@ -401,14 +402,14 @@ return (
           {personaData.image && (
             <img
               src={personaData.image}
-              alt={String(state.persona)}
+              alt={personaData?.name || String(state.persona)}
               className="mx-auto mb-6 w-64 h-auto rounded-xl"
             />
           )}
 
           {/* Persona Name */}
           <h2 className="text-2xl font-bold mb-4">
-            {String(state.persona)}
+            {personaData?.name || String(state.persona)}
           </h2>
 
           {/* Description */}
@@ -702,7 +703,7 @@ return (
         )}
 
         <h2 className="text-2xl font-bold mb-4">
-          {state.persona}
+          {personaData?.name || state.persona}
         </h2>
 
         <p className="text-gray-300 leading-relaxed">
@@ -791,14 +792,14 @@ function TopDashboard({
     {personaInfo?.image && (
     <img
       src={personaInfo.image}
-      alt={String(state.persona)}
+      alt={personaInfo?.name || String(state.persona)}
       onClick={() => setShowPersonaCard(true)}
       className="w-10 h-10 object-cover rounded-md cursor-pointer hover:scale-110 transition"
     />
   )}
 
     <span className="inline-block px-5 py-2 bg-indigo-600/30 rounded-full text-base font-semibold">
-      {state.persona}
+      {personaInfo?.name || state.persona}
     </span>
 
   </div>
